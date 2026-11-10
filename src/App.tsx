@@ -158,7 +158,7 @@ function ProjectCard({
             .join(" · ")}
         </span>
         <span className="font-inter-semibold text-[15px] leading-[1.25] text-[#f1f5fc] transition-colors group-hover:text-[#8bb5ff]">
-          View project <span className="arrow-shift">→</span>
+          View project <span className="arrow-shift" aria-hidden="true"><Glyph name="right" size={18}/></span>
         </span>
       </span>
     </button>
@@ -596,21 +596,17 @@ function InsideSmartPOS() {
         </div>
       </div>
 
-      <div className="mt-5 grid gap-4 lg:grid-cols-[minmax(0,1fr)_280px]">
+      <div className="sale-section mt-5 grid gap-4">
         <div className="rounded-xl border border-[#293345] bg-[#0d1421] p-4">
           <p className="font-mono-design text-[10px] text-[#76a7ff]">TYPICAL SALE</p>
           <ol className="sale-flow mt-4">
             {saleSteps.map((step, index) => (
               <li key={step}>
+                <span className="sale-step-icon" aria-hidden="true"><Glyph name={(["camera", "scale", "review", "storage", "receipt"] as const)[index]} size={22}/></span>
                 <span className="sale-step-number" aria-hidden="true">
-                  {String(index + 1).padStart(2, "0")}
+                  STEP {String(index + 1).padStart(2, "0")}
                 </span>
-                <span>{step}</span>
-                {index < saleSteps.length - 1 && (
-                  <span className="sale-arrow" aria-hidden="true">
-                    →
-                  </span>
-                )}
+                <span className="sale-step-label">{step}</span>
               </li>
             ))}
           </ol>
@@ -657,7 +653,7 @@ function ProjectLinkAction({
         rel="noreferrer"
         aria-label={`${label} for this project (opens in a new tab)`}
       >
-        {label} <span className="arrow-shift">↗</span>
+        {label} <span className="arrow-shift" aria-hidden="true"><Glyph name="diagonal" size={18}/></span>
       </a>
     );
   }
@@ -824,7 +820,7 @@ export default function App() {
                 and databases to embedded hardware and integrated applications.
               </p>
               <a className="primary-button" href="#work">
-                Explore projects <span className="arrow-shift">→</span>
+                Explore projects <span className="arrow-shift" aria-hidden="true"><Glyph name="right" size={18}/></span>
               </a>
             </div>
 
@@ -869,7 +865,7 @@ export default function App() {
                 explore different approaches.
               </p>
               <a className="text-link mt-3 inline-flex" href="#about">
-                More about me <span className="arrow-shift">→</span>
+                More about me <span className="arrow-shift" aria-hidden="true"><Glyph name="right" size={18}/></span>
               </a>
             </aside>
           </section>
@@ -943,7 +939,7 @@ export default function App() {
             </p>
             <div className="mt-[18px] flex flex-wrap items-center gap-5">
               <a className="contact-action" href="mailto:edrianmonfortepatulot@gmail.com">
-                Email Edrian <span className="arrow-shift">→</span>
+                Email Edrian <span className="arrow-shift" aria-hidden="true"><Glyph name="right" size={18}/></span>
               </a>
               <a
                 className="contact-secondary"
@@ -951,7 +947,7 @@ export default function App() {
                 target="_blank"
                 rel="noreferrer"
               >
-                View GitHub profile <span className="arrow-shift">↗</span>
+                View GitHub profile <span className="arrow-shift" aria-hidden="true"><Glyph name="diagonal" size={18}/></span>
               </a>
             </div>
           </section>

@@ -34,7 +34,7 @@ export default function Services() {
     <section ref={sectionRef} id="services" className="services-section reveal-section" aria-labelledby="services-heading" data-running={active && !paused} data-paused={paused}>
       <div className="services-heading-row">
         <div>
-          <p className="service-eyebrow">IDEA → PROTOTYPE → IMPLEMENTATION</p>
+          <p className="service-eyebrow service-stages"><span>IDEA</span><i aria-hidden="true"/><span>PROTOTYPE</span><i aria-hidden="true"/><span>IMPLEMENTATION</span></p>
           <h2 id="services-heading">What I can help with.</h2>
           <p className="services-intro">Digital interfaces. Physical systems. The connections between them.</p>
         </div>

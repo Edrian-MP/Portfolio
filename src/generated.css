@@ -781,9 +781,6 @@
     .lg\:grid-cols-\[1\.1fr_\.9fr\] {
       grid-template-columns: 1.1fr .9fr;
     }
-    .lg\:grid-cols-\[minmax\(0\,1fr\)_280px\] {
-      grid-template-columns: minmax(0,1fr) 280px;
-    }
     .lg\:grid-cols-\[minmax\(0\,1fr\)_460px\] {
       grid-template-columns: minmax(0,1fr) 460px;
     }
@@ -1950,37 +1947,81 @@
 }
 .sale-flow {
   display: grid;
-  gap: 8px;
+  gap: 0;
 }
 .sale-flow > li {
   position: relative;
   display: grid;
+  grid-template-columns: 44px minmax(0,1fr);
+  column-gap: 16px;
+  min-height: 86px;
+  padding: 0 0 22px;
+  color: #d7e2f2;
+  font: 12px/1.5 "Inter:Regular",Inter,sans-serif;
+}
+.sale-flow > li:last-child {
   min-height: 44px;
-  grid-template-columns: 28px minmax(0, 1fr);
-  align-items: center;
-  gap: 8px;
-  border: 1px solid #293345;
-  border-radius: 8px;
-  background: #101620;
-  color: #c0cad9;
-  font-family: "Inter:Regular", Inter, sans-serif;
-  font-size: 12px;
-  line-height: 1.4;
-  padding: 8px 10px;
+  padding-bottom: 0;
+}
+.sale-flow > li:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 21px;
+  top: 44px;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(#426997,#29425e);
+}
+.sale-step-icon {
+  position: relative;
+  z-index: 1;
+  grid-row: 1 / 3;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid #416590;
+  border-radius: 13px;
+  background: linear-gradient(145deg,#203853,#142035);
+  color: #a4c8ff;
+  box-shadow: inset 0 1px #ffffff0a,0 5px 12px #0002;
 }
 .sale-step-number {
-  color: #76a7ff;
-  font-family: "JetBrains Mono:Regular", "JetBrains Mono", monospace;
-  font-size: 9px;
+  align-self: end;
+  font: 9px/1.5 "JetBrains Mono:Regular",monospace;
+  color: #7895bb;
+  letter-spacing: .05em;
 }
-.sale-arrow {
+.sale-step-label {
+  align-self: start;
+}
+.sale-section > aside {
+  position: relative;
+  padding-left: 22px;
+  border-color: #2e4666;
+  background: linear-gradient(110deg,#15243a,#101a29);
+}
+.sale-section > aside::before {
+  content: "";
   position: absolute;
-  bottom: -10px;
-  left: 50%;
-  z-index: 1;
-  color: #4f78b8;
-  font-family: "JetBrains Mono:Regular", "JetBrains Mono", monospace;
-  transform: translateX(-50%) rotate(90deg);
+  left: 0;
+  top: 18px;
+  bottom: 18px;
+  width: 2px;
+  background: #668fc9;
+  border-radius: 2px;
+}
+.service-stages {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+.service-stages i {
+  width: 4px;
+  height: 4px;
+  border: 1px solid #668ab9;
+  transform: rotate(45deg);
 }
 .contact-action {
   display: inline-flex;
@@ -2025,8 +2066,10 @@
   transform: translateY(-2px) scale(0.992);
 }
 .arrow-shift {
-  display: inline-block;
-  margin-left: 0.2em;
+  display: inline-flex;
+  vertical-align: middle;
+  align-items: center;
+  margin-left: 0.35em;
   transition: transform 160ms ease;
 }
 .primary-button:hover .arrow-shift, .text-link:hover .arrow-shift, .project-card:hover .arrow-shift, .project-action:hover .arrow-shift, .contact-action:hover .arrow-shift, .contact-secondary:hover .arrow-shift {
@@ -2157,22 +2200,35 @@
     animation: none;
   }
 }
-@media (min-width: 640px) {
+@media (min-width: 800px) {
   .sale-flow {
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-columns: repeat(5,minmax(0,1fr));
   }
-  .sale-flow > li {
-    min-height: 76px;
-    grid-template-columns: 1fr;
-    align-content: center;
-    padding: 10px;
+  .sale-flow > li,.sale-flow > li:last-child {
+    grid-template-columns: minmax(0,1fr);
+    grid-template-rows: 44px auto 1fr;
+    align-content: start;
+    min-height: 122px;
+    padding: 0 12px 0 0;
+    row-gap: 8px;
   }
-  .sale-arrow {
-    top: 50%;
-    right: -10px;
+  .sale-step-icon {
+    grid-row: auto;
+  }
+  .sale-step-number {
+    margin-top: 5px;
+  }
+  .sale-flow > li:not(:last-child)::after {
+    top: 21px;
+    left: 44px;
+    right: 0;
     bottom: auto;
-    left: auto;
-    transform: translateY(-50%);
+    height: 2px;
+    width: auto;
+    background: linear-gradient(90deg,#426997,#29425e);
+  }
+  .sale-step-label {
+    max-width: 125px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
