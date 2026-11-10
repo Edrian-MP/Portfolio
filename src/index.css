@@ -5,6 +5,7 @@
 @import "./theme.css";
 @import "./gallery.css";
 @import "./polish.css";
+@import "./avatar.css";
 
 @font-face {
   font-family: "Inter:Regular";

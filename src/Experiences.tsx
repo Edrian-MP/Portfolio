@@ -9,6 +9,8 @@ const devices = [
 
 export function Workbench({ day, onToggleTheme }: { day: boolean; onToggleTheme: () => void }) {
   const [selected, setSelected] = useState(0);
+  const [avatarPaused, setAvatarPaused] = useState(false);
+  const [blinkReady, setBlinkReady] = useState(false);
   const active = devices[selected];
   const bench = useRef<HTMLDivElement>(null);
   const [inView, setInView] = useState(false);
@@ -17,7 +19,12 @@ export function Workbench({ day, onToggleTheme }: { day: boolean; onToggleTheme:
     <div className="bench-toolbar"><span><i/> EDRIAN’S WORKBENCH</span><button type="button" aria-label="Day mode for entire website" title={day ? "Switch entire website to Night" : "Switch entire website to Day"} aria-pressed={day} onClick={onToggleTheme}><span key={day ? "sun" : "moon"} className="theme-symbol" aria-hidden="true">{day ? "☀" : "☾"}</span>{day ? "Day" : "Night"}</button></div>
     <div className="bench-scene">
       <div className="bench-window" aria-hidden="true"><i/><i/></div><div className="bench-halo" aria-hidden="true"/>
-      <img key={selected} className="bench-person" src={`${import.meta.env.BASE_URL}assets/ee678.png`} alt="Pixel Edrian working at his laptop"/>
+      <div className="bench-person" data-motion={inView && !avatarPaused}>
+        <div key={selected} className="avatar-reaction"><div className="avatar-breathe">
+          <img src={`${import.meta.env.BASE_URL}assets/ee678.png`} alt="Pixel Edrian working at his laptop"/>
+          <img className="avatar-blink" src={`${import.meta.env.BASE_URL}assets/edrian-blink-v1.png`} alt="" aria-hidden="true" onLoad={()=>setBlinkReady(true)} style={{display:blinkReady?undefined:"none"}}/>
+        </div></div>
+      </div>
       <div className="bench-desk" aria-hidden="true"/>
       <button className="bench-device bench-laptop" type="button" aria-pressed={selected===0} onClick={()=>setSelected(0)}><span className="device-screen" aria-hidden="true">&lt;/&gt;<i/><b className="monitor-activity"/></span><span>Laptop</span></button>
       <button className="bench-device bench-pi" type="button" aria-pressed={selected===1} onClick={()=>setSelected(1)}><span className="device-board" aria-hidden="true"><i/><b/><em/></span><span>Raspberry Pi</span></button>
@@ -25,6 +32,7 @@ export function Workbench({ day, onToggleTheme }: { day: boolean; onToggleTheme:
       <span className="bench-wire wire-left" aria-hidden="true"/><span className="bench-wire wire-right" aria-hidden="true"/>
     </div>
     <div className="bench-detail" aria-live="polite"><span className="experience-kicker">EXPLORE THE WORKSPACE / 0{selected+1}</span><h3>{active.title}</h3><p>{active.text}</p><div className="bench-chips">{active.chips.map(x=><span key={x}>{x}</span>)}</div></div>
+    <div className="avatar-controls"><button className="avatar-motion-control" type="button" aria-pressed={avatarPaused} onClick={()=>setAvatarPaused(!avatarPaused)}><Glyph name={avatarPaused ? "play" : "pause"} size={13}/>{avatarPaused ? "Resume character" : "Pause character"}</button></div>
   </div>;
 }
 

@@ -62,4 +62,6 @@ The build uses Vite 7 and the official Rollup WASM distribution for compatibilit
 
 ## Visual polish
 
+Pixel character: a generated closed-eye frame is masked to the eye regions, with short blinks/double blink, slow breathing, and device-selection acknowledgement. The original artwork is preserved. Pause/Resume character controls, offscreen/background pausing, and reduced-motion support are included. New asset: public/assets/edrian-blink-v1.png.
+
 Section navigation tracks the current section and slides its highlight; mobile uses a bottom navigation bar with content/safe-area clearance. The fullscreen screenshot dialog supports keyboard navigation, horizontal swipe, zoom/fit, and returning focus without closing the project. Screenshot changes fade gently. Theme changes coordinate surface colors and a sun/moon icon animation. Workspace device selection adds a small nod, monitor activity, and a status light. Offscreen/background activity is paused, and reduced-motion preferences disable the added animation. Mobile labels use larger, less dense type.

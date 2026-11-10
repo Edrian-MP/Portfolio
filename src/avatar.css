@@ -1,0 +1,19 @@
+/* Keep the original sprite registered; only the two eye regions use the blink frame. */
+.bench-person { animation:none; pointer-events:none; }
+.avatar-reaction,.avatar-breathe { position:relative; width:100%; height:100%; }
+.avatar-reaction { transform-origin:50% 85%; animation:avatar-acknowledge .65s ease-out; }
+.avatar-breathe { transform-origin:50% 92%; animation:avatar-breathe 5.6s ease-in-out infinite; }
+.avatar-breathe>img { position:absolute; inset:0; width:100%; height:100%; object-fit:contain; }
+.avatar-blink { opacity:0; mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1280 1280'%3E%3Crect x='490' y='342' width='110' height='66' fill='white'/%3E%3Crect x='638' y='342' width='110' height='66' fill='white'/%3E%3C/svg%3E") center/contain no-repeat; animation:avatar-blink 8.6s steps(1,end) infinite; }
+.bench-person[data-motion="false"] .avatar-blink { visibility:hidden; }
+.bench-person[data-motion="false"] * { animation-play-state:paused; }
+.avatar-motion-control { display:inline-flex; align-items:center; gap:6px; min-height:36px; margin-top:12px; padding:5px 8px; border:1px solid #365172; border-radius:7px; color:#a1bfdf; background:#15263d; font:10px/1.5 "Inter:Regular",sans-serif; cursor:pointer; }
+.avatar-motion-control:hover { color:#dcecff; border-color:#7198c9; }.avatar-motion-control:focus-visible { outline:2px solid #a4ccff; outline-offset:3px; }
+:root[data-theme="light"] .avatar-motion-control { color:#365f90; background:#eaf2fc; border-color:#b6cce5; }
+@keyframes avatar-breathe { 0%,100% { transform:translateY(0) scaleY(1); }50% { transform:translateY(-.45px) scaleY(1.006); } }
+@keyframes avatar-acknowledge { 0%,100% { transform:rotate(0); }40% { transform:rotate(-.75deg) translateY(1px); }70% { transform:rotate(.2deg); } }
+@keyframes avatar-blink { 0%,38%,79%,83%,100% { opacity:0; }36%,77%,81% { opacity:1; } }
+@media(prefers-reduced-motion:reduce) { .avatar-reaction,.avatar-breathe,.avatar-blink { animation:none !important; }.avatar-blink { visibility:hidden; }.avatar-motion-control { display:none; } }
+
+.avatar-controls { padding:0 18px 16px; background:#0e1b2d; }.avatar-controls .avatar-motion-control { margin-top:0; }
+:root[data-theme="light"] .avatar-controls { background:#f8fbff; }
