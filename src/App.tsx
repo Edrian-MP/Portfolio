@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Services from "./Services";
+import SmartGallery, { SmartPOSCover } from "./SmartGallery";
 import { useTheme } from "./useTheme";
 import { flushSync } from "react-dom";
-import { Workbench, SmartDemo, DemoPreview, CommandPalette } from "./Experiences";
+import { Workbench, SmartDemo, CommandPalette } from "./Experiences";
 import { ContactBeacon, Glyph, ScrollDetails } from "./VisualDetails";
 
 type ProjectLink =
@@ -27,7 +28,6 @@ type Project = {
   keyCapabilities: string[];
   stack: StackGroup[];
   challenges: string;
-  screenshotStatus: string;
   completionStatus: string;
   repository: ProjectLink;
   demo: ProjectLink;
@@ -96,7 +96,6 @@ const projects: Project[] = [
     ],
     challenges:
       "Integrating physical hardware with application software, working within a Linux environment, and connecting the local system with a web administration interface and hosting setup.",
-    screenshotStatus: "Screenshots are available but have not been uploaded yet.",
     completionStatus: "Deployment and completion status have not been confirmed.",
     repository: { status: "private" },
     demo: { status: "missing" },
@@ -133,7 +132,7 @@ function ProjectCard({
       onPointerMove={updateSpotlight}
       aria-label={`View details for ${project.title}`}
     >
-      <DemoPreview />
+      <SmartPOSCover />
       <span className="flex flex-col items-start justify-center gap-4">
         <span className="font-mono-design text-[11px] leading-[1.25] text-[#76a7ff]">
           {project.category}
@@ -255,20 +254,11 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
         </div>
 
         <div className="p-5 sm:p-9">
-          <section aria-labelledby="showcase-heading">
-            <div className="mb-3 flex items-center justify-between gap-4">
-              <h3
-                id="showcase-heading"
-                className="font-mono-design text-[11px] leading-[1.25] text-[#76a7ff]"
-              >
-                PROJECT PLAYGROUND
-              </h3>
-              <span className="font-mono-design rounded-md border border-[#293345] bg-[#0d1421] px-2 py-1 text-[9px] text-[#7f8ca2]">
-                CONCEPT DEMO / SAMPLE DATA
-              </span>
-            </div>
+          <SmartGallery />
+          <details className="demo-disclosure">
+            <summary>Try the illustrative workflow demo</summary>
             <SmartDemo />
-          </section>
+          </details>
 
           <div className="mt-7 grid gap-4 md:grid-cols-2">
             <ShowcaseSection title="OVERVIEW" className="md:col-span-2">

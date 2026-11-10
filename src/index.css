@@ -3,6 +3,7 @@
 @import "./visual-details.css";
 @import "./experiences.css";
 @import "./theme.css";
+@import "./gallery.css";
 
 @font-face {
   font-family: "Inter:Regular";

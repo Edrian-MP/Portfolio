@@ -37,7 +37,7 @@ If using only the separate built-site ZIP, extract its contents into the reposit
 - `public/assets/ee678.png`: approved pixel developer workspace illustration.
 - `public/fonts/`: local fonts, so the site does not depend on temporary Figma asset URLs.
 
-The project card uses a labeled concept illustration; the project playground includes a simulated produce/weight/receipt workflow with sample prices. These are not screenshots of the actual SmartPOS application. SmartPOS is labeled as a private repository; no fake demo URL is supplied. The contact action opens the visitor's email app. There is no server, database, contact-form submission service, or API secret in this version.
+The project cover and gallery now use nine original SmartPOS application screenshots supplied by Edrian (one duplicate inventory capture was omitted). Captions describe the captured screens; displayed confidence is not presented as an accuracy benchmark. The separate, collapsible workflow demo still uses illustrative prices and performs no real transactions. SmartPOS is labeled as a private repository; no fake demo URL is supplied. The contact action opens the visitor's email app. There is no server, database, contact-form submission service, or API secret in this version.
 
 ## Portable build notes
 
@@ -54,6 +54,7 @@ The build uses Vite 7 and the official Rollup WASM distribution for compatibilit
 ## Interactive experiences
 
 - Workspace devices reveal relevant skills; the Day/Night switch themes the entire website, including project and navigation dialogs. A saved preference survives reloads and synchronizes across tabs. First-time visitors follow their device preference. Early theme initialization avoids a flash of the wrong theme.
+- SmartPOS gallery: keyboard-accessible thumbnails, wrapping previous/next controls, captions, and full-resolution image links. Original files are preserved under public/assets/smartpos/.
 - SmartPOS playground: select produce, adjust 0.25–3 kg, generate and reset a sample receipt. Prices are illustrative; no recognition, hardware, payment, or persistence is involved.
 - Native View Transitions animate the project card into its showcase where supported. Unsupported browsers retain the modal; reduced-motion preferences disable the morph.
 - Quick navigation opens from the header or Ctrl/Cmd+K, supports search, arrow keys, Enter, Escape, and focus trapping/return.

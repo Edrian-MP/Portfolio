@@ -30,10 +30,6 @@ export function ProduceArt({kind}:{kind:string}) {
   return <svg className={`produce-art produce-${kind}`} viewBox="0 0 100 100" aria-hidden="true"><path className="produce-body" d={kind==="carrot"?"M36 28Q70 20 72 42L36 87Q25 94 29 79Z":kind==="eggplant"?"M64 21Q89 46 59 77Q25 103 18 77Q13 60 43 39Z":"M50 28C20 14 7 48 20 72C32 96 72 95 84 70C97 43 79 17 50 28Z"}/><path className="produce-leaf" d={kind==="carrot"?"M48 27L39 7M54 25L62 6M59 30L78 19":"M47 29L38 16L52 21L60 9L61 23L76 24L64 34Z"}/><path className="produce-shine" d="M28 55q-3 12 5 17"/></svg>;
 }
 
-export function DemoPreview() {
-  return <span className="demo-preview"><span className="preview-top"><span className="experience-kicker">SMARTPOS / CONCEPT PREVIEW</span><span className="preview-led">LOCAL</span></span><span className="preview-stage"><span className="scan-corner"/><ProduceArt kind="tomato"/><span className="preview-detection">Produce identified<small>Tomato</small></span></span><span className="preview-bottom"><span>WEIGHT<b>0.75 <small>kg</small></b></span><span>TOTAL<b>₱45.00</b></span></span><span className="preview-note">Explore the interactive illustration inside</span></span>;
-}
-
 export function SmartDemo() {
   const [item,setItem]=useState(0); const [weight,setWeight]=useState(0.75); const [receipt,setReceipt]=useState(false);
   const current=produce[item]; const total=current.price*weight;
