@@ -2,6 +2,7 @@
 @import "./services.css";
 @import "./visual-details.css";
 @import "./experiences.css";
+@import "./theme.css";
 
 @font-face {
   font-family: "Inter:Regular";

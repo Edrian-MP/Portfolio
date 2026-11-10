@@ -53,7 +53,7 @@ The build uses Vite 7 and the official Rollup WASM distribution for compatibilit
 
 ## Interactive experiences
 
-- Workspace devices reveal relevant skills; the Day/Night switch changes scene lighting.
+- Workspace devices reveal relevant skills; the Day/Night switch themes the entire website, including project and navigation dialogs. A saved preference survives reloads and synchronizes across tabs. First-time visitors follow their device preference. Early theme initialization avoids a flash of the wrong theme.
 - SmartPOS playground: select produce, adjust 0.25–3 kg, generate and reset a sample receipt. Prices are illustrative; no recognition, hardware, payment, or persistence is involved.
 - Native View Transitions animate the project card into its showcase where supported. Unsupported browsers retain the modal; reduced-motion preferences disable the morph.
 - Quick navigation opens from the header or Ctrl/Cmd+K, supports search, arrow keys, Enter, Escape, and focus trapping/return.

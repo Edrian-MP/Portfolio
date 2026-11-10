@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Services from "./Services";
+import { useTheme } from "./useTheme";
 import { flushSync } from "react-dom";
 import { Workbench, SmartDemo, DemoPreview, CommandPalette } from "./Experiences";
 import { ContactBeacon, Glyph, ScrollDetails } from "./VisualDetails";
@@ -696,6 +697,7 @@ function transitionProject(update: () => void) {
 }
 
 export default function App() {
+  const { theme, toggleTheme } = useTheme();
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
   const heroRef = useRef<HTMLElement | null>(null);
@@ -822,7 +824,7 @@ export default function App() {
               id="workspace"
               className="hero-content relative z-[2] scroll-mt-6 bg-[#101b2d] px-5 py-6 sm:px-7"
             >
-              <Workbench />
+              <Workbench day={theme === "light"} onToggleTheme={toggleTheme} />
             </aside>
           </section>
 

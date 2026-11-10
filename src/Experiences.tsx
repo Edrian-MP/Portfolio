@@ -7,12 +7,11 @@ const devices = [
   { id: "circuit", label: "Circuit", title: "From signal to system.", text: "Arduino, discrete components, and hardware–software prototyping.", chips: ["Arduino", "Electronics", "Prototyping"] },
 ];
 
-export function Workbench() {
+export function Workbench({ day, onToggleTheme }: { day: boolean; onToggleTheme: () => void }) {
   const [selected, setSelected] = useState(0);
-  const [day, setDay] = useState(false);
   const active = devices[selected];
   return <div className="workbench" data-mode={day ? "day" : "night"} data-device={active.id}>
-    <div className="bench-toolbar"><span><i/> EDRIAN’S WORKBENCH</span><button type="button" aria-label="Day workspace" aria-pressed={day} onClick={() => setDay(!day)}><span aria-hidden="true">{day ? "☀" : "☾"}</span>{day ? "Day" : "Night"}</button></div>
+    <div className="bench-toolbar"><span><i/> EDRIAN’S WORKBENCH</span><button type="button" aria-label="Day mode for entire website" title={day ? "Switch entire website to Night" : "Switch entire website to Day"} aria-pressed={day} onClick={onToggleTheme}><span aria-hidden="true">{day ? "☀" : "☾"}</span>{day ? "Day" : "Night"}</button></div>
     <div className="bench-scene">
       <div className="bench-window" aria-hidden="true"><i/><i/></div><div className="bench-halo" aria-hidden="true"/>
       <img className="bench-person" src={`${import.meta.env.BASE_URL}assets/ee678.png`} alt="Pixel Edrian working at his laptop"/>
