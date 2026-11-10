@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Services from "./Services";
+import { flushSync } from "react-dom";
+import { Workbench, SmartDemo, DemoPreview, CommandPalette } from "./Experiences";
 import { ContactBeacon, Glyph, ScrollDetails } from "./VisualDetails";
 
 type ProjectLink =
@@ -130,14 +132,7 @@ function ProjectCard({
       onPointerMove={updateSpotlight}
       aria-label={`View details for ${project.title}`}
     >
-      <span className="flex min-h-[240px] w-full flex-col items-start gap-3.5 rounded-xl bg-[#0d1421] p-5 sm:min-h-[300px]">
-        <span className="font-mono-design text-[15px] leading-[1.25] text-[#76a7ff]">
-          {"< project preview />"}
-        </span>
-        <span className="font-inter-regular text-[13px] leading-[1.25] text-[#a3afc2]">
-          {project.screenshotStatus}
-        </span>
-      </span>
+      <DemoPreview />
       <span className="flex flex-col items-start justify-center gap-4">
         <span className="font-mono-design text-[11px] leading-[1.25] text-[#76a7ff]">
           {project.category}
@@ -265,22 +260,13 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
                 id="showcase-heading"
                 className="font-mono-design text-[11px] leading-[1.25] text-[#76a7ff]"
               >
-                PROJECT SHOWCASE
+                PROJECT PLAYGROUND
               </h3>
               <span className="font-mono-design rounded-md border border-[#293345] bg-[#0d1421] px-2 py-1 text-[9px] text-[#7f8ca2]">
-                SCREENSHOTS NOT YET UPLOADED
+                CONCEPT DEMO / SAMPLE DATA
               </span>
             </div>
-            <div className="flex aspect-[4/3] min-h-[260px] items-center justify-center overflow-hidden rounded-2xl border border-[#263d5d] bg-[#0d1421] p-8 sm:aspect-[16/8]">
-              <div className="text-center">
-                <p className="font-mono-design text-[13px] text-[#76a7ff]">
-                  {"< large project screenshot />"}
-                </p>
-                <p className="font-inter-regular mt-3 text-[13px] text-[#7f8ca2]">
-                  {project.screenshotStatus}
-                </p>
-              </div>
-            </div>
+            <SmartDemo />
           </section>
 
           <div className="mt-7 grid gap-4 md:grid-cols-2">
@@ -702,6 +688,13 @@ const toolboxGroups = [
   },
 ];
 
+function transitionProject(update: () => void) {
+  const doc = document as Document & { startViewTransition?: (callback: () => void) => { finished: Promise<void> } };
+  if (doc.startViewTransition && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    doc.startViewTransition(() => flushSync(update)).finished.catch(() => {});
+  } else update();
+}
+
 export default function App() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
@@ -759,26 +752,27 @@ export default function App() {
 
   const openProject = useCallback((project: Project, trigger: HTMLButtonElement) => {
     triggerRef.current = trigger;
-    setSelectedProject(project);
+    transitionProject(() => setSelectedProject(project));
   }, []);
 
   const closeProject = useCallback(() => {
-    setSelectedProject(null);
+    transitionProject(() => setSelectedProject(null));
     requestAnimationFrame(() => triggerRef.current?.focus());
   }, []);
 
   return (
     <>
       <ScrollDetails />
-      <div id="home" className="min-h-dvh bg-[#0b0e14] px-5 py-8 text-[#f1f5fc] sm:px-10 sm:py-12 lg:px-20 lg:py-20">
+      <div id="home" className={`portfolio-shell ${selectedProject ? "has-project" : ""} min-h-dvh bg-[#0b0e14] px-5 py-8 text-[#f1f5fc] sm:px-10 sm:py-12 lg:px-20 lg:py-20`}>
         <main className="mx-auto flex w-full max-w-[1280px] flex-col gap-8">
           <nav
-            className="flex flex-wrap items-center gap-x-5 gap-y-3"
+            className="portfolio-nav flex flex-wrap items-center gap-x-5 gap-y-3"
             aria-label="Primary navigation"
           >
             <p className="font-inter-semibold mr-1 text-[18px] leading-[1.25] text-[#f1f5fc]">
               EDRIAN MONFORTE PATULOT
             </p>
+            <CommandPalette disabled={!!selectedProject} />
             <a className="nav-link" href="#work">
               Work
             </a>
@@ -825,32 +819,14 @@ export default function App() {
             </div>
 
             <aside
-              id="about"
+              id="workspace"
               className="hero-content relative z-[2] scroll-mt-6 bg-[#101b2d] px-5 py-6 sm:px-7"
             >
-              <div className="workspace-scene mx-auto w-full max-w-[460px] overflow-hidden rounded-[14px] border border-[#263d5d] bg-[#0d1625] pt-3">
-                <p className="workspace-header font-mono-design flex items-center gap-1.5 px-3 text-[10px] leading-[1.25] text-[#76a7ff]">
-                  <span className="window-dots flex gap-1" aria-hidden="true">
-                    <span />
-                    <span />
-                    <span />
-                  </span>
-                  <span className="ml-2">workspace / 01</span>
-                </p>
-                <div className="workspace-art relative aspect-square w-full">
-                  <div className="workspace-particles" aria-hidden="true">
-                    <span />
-                    <span />
-                    <span />
-                    <span />
-                  </div>
-                  <img
-                    src={`${import.meta.env.BASE_URL}assets/ee678.png`}
-                    alt="Pixel artwork of a developer working at a laptop"
-                    className="relative z-[1] size-full object-contain"
-                  />
-                </div>
-              </div>
+              <Workbench />
+            </aside>
+          </section>
+
+          <section id="about" className="about-summary reveal-section">
               <p className="font-mono-design mt-3 text-[11px] leading-[1.25] text-[#76a7ff]">
                 ABOUT
               </p>
@@ -864,10 +840,6 @@ export default function App() {
                 prototypes. I use AI tools to support development, troubleshoot problems, and
                 explore different approaches.
               </p>
-              <a className="text-link mt-3 inline-flex" href="#about">
-                More about me <span className="arrow-shift" aria-hidden="true"><Glyph name="right" size={18}/></span>
-              </a>
-            </aside>
           </section>
 
           <section id="work" className="reveal-section scroll-mt-6">

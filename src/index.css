@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "./services.css";
 @import "./visual-details.css";
+@import "./experiences.css";
 
 @font-face {
   font-family: "Inter:Regular";
@@ -30,7 +31,7 @@
   }
 
   body {
-    min-width: 320px;
+    min-width: 0;
     background: #0b0e14;
     overflow-wrap: break-word;
   }

@@ -37,7 +37,7 @@ If using only the separate built-site ZIP, extract its contents into the reposit
 - `public/assets/ee678.png`: approved pixel developer workspace illustration.
 - `public/fonts/`: local fonts, so the site does not depend on temporary Figma asset URLs.
 
-Screenshots remain placeholders as requested. SmartPOS is labeled as a private repository; no fake demo URL is supplied. The contact action opens the visitor's email app. There is no server, database, contact-form submission service, or API secret in this version.
+The project card uses a labeled concept illustration; the project playground includes a simulated produce/weight/receipt workflow with sample prices. These are not screenshots of the actual SmartPOS application. SmartPOS is labeled as a private repository; no fake demo URL is supplied. The contact action opens the visitor's email app. There is no server, database, contact-form submission service, or API secret in this version.
 
 ## Portable build notes
 
@@ -46,7 +46,15 @@ The build uses Vite 7 and the official Rollup WASM distribution for compatibilit
 ## Validation performed
 
 - TypeScript check and production build passed.
-- Browser checks at 390px and 1440px: no horizontal overflow; illustration loaded.
+- Browser checks at 320px, 390px, 768px, and 1440px; corrected narrow-screen overflow and checked mobile layouts.
 - SmartPOS modal opened; Escape closed it and returned focus to the card.
 - System explorer updated its information panel on selection.
-- GitHub Pages publication must still be verified in the selected repository.
+- Published at https://edrian-mp.github.io/Portfolio/ through GitHub Actions.
+
+## Interactive experiences
+
+- Workspace devices reveal relevant skills; the Day/Night switch changes scene lighting.
+- SmartPOS playground: select produce, adjust 0.25–3 kg, generate and reset a sample receipt. Prices are illustrative; no recognition, hardware, payment, or persistence is involved.
+- Native View Transitions animate the project card into its showcase where supported. Unsupported browsers retain the modal; reduced-motion preferences disable the morph.
+- Quick navigation opens from the header or Ctrl/Cmd+K, supports search, arrow keys, Enter, Escape, and focus trapping/return.
+- Responsive navigation, separate About section, compact mobile modal header, aligned contact actions, and smaller device controls support narrow screens.
