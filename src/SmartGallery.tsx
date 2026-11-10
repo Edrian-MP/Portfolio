@@ -1,5 +1,6 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Glyph } from "./VisualDetails";
+import { swipeDirection } from "./galleryGestures";
 
 const screenshots = [
   { file:"recognition", title:"Produce recognition", category:"SELLER TERMINAL", caption:"Three camera views show carrots on the scale, with Carrot selected by the recognition interface. The confidence shown belongs to this captured session; it is not a measured accuracy benchmark.", alt:"SmartPOS terminal with three camera views of carrots, a carrot recognition label, weight reading, and checkout controls" },
@@ -21,10 +22,17 @@ export function SmartPOSCover() {
 export default function SmartGallery() {
   const [active,setActive]=useState(0);
   const tabs=useRef<HTMLDivElement>(null);
+  const viewer=useRef<HTMLDialogElement>(null);
+  const opener=useRef<HTMLButtonElement>(null);
+  const touch=useRef<{x:number;y:number}|null>(null);
+  const [expanded,setExpanded]=useState(false);
+  const [zoom,setZoom]=useState(false);
+  useEffect(()=>{if(expanded&&!viewer.current?.open)viewer.current?.showModal();},[expanded]);
   const shot=screenshots[active];
   const select=(next:number,focus=false)=>{
     const index=(next+screenshots.length)%screenshots.length;
     setActive(index);
+    setZoom(false);
     const button=tabs.current?.querySelectorAll<HTMLButtonElement>("button")[index];
     if(focus) button?.focus({preventScroll:true});
     if (button && tabs.current) tabs.current.scrollTo({left:Math.max(0,button.offsetLeft-(tabs.current.clientWidth-button.clientWidth)/2),behavior:"instant"});
@@ -32,12 +40,17 @@ export default function SmartGallery() {
   return <section className="smart-gallery" aria-labelledby="smart-gallery-heading">
     <div className="gallery-heading"><div><p className="experience-kicker">ACTUAL APPLICATION / SCREEN GALLERY</p><h3 id="smart-gallery-heading">Inside the real SmartPOS.</h3></div><span className="gallery-tag">9 ORIGINAL CAPTURES</span></div>
     <div className="gallery-stage" id="gallery-image-panel" role="tabpanel" aria-labelledby={`gallery-tab-${active}`}>
-      <a className="gallery-image-link" href={source(shot.file)} target="_blank" rel="noreferrer" aria-label={`Open original screenshot: ${shot.title} (opens in a new tab)`}><img key={shot.file} src={source(shot.file)} width="906" height="564" alt={shot.alt}/><span className="gallery-expand">View full size <Glyph name="diagonal" size={15}/></span></a>
+      <button ref={opener} type="button" className="gallery-image-link" onClick={()=>setExpanded(true)} aria-label={`Open fullscreen screenshot: ${shot.title}`}><img key={shot.file} src={source(shot.file)} width="906" height="564" alt={shot.alt}/><span className="gallery-expand">Open fullscreen <Glyph name="diagonal" size={15}/></span></button>
       <div className="gallery-caption"><div aria-live="polite"><p className="experience-kicker">{shot.category}</p><h4>{shot.title}</h4><p>{shot.caption}</p></div><div className="gallery-controls"><button className="round-control" type="button" aria-label="Previous screenshot" onClick={()=>select(active-1)}><span className="gallery-prev"><Glyph name="right" size={18}/></span></button><span>{String(active+1).padStart(2,"0")} / 09</span><button className="round-control" type="button" aria-label="Next screenshot" onClick={()=>select(active+1)}><Glyph name="right" size={18}/></button></div></div>
     </div>
     <div ref={tabs} className="gallery-thumbnails" role="tablist" aria-label="SmartPOS screenshots" onKeyDown={e=>{let next=active;if(e.key==="ArrowRight"||e.key==="ArrowDown")next++;else if(e.key==="ArrowLeft"||e.key==="ArrowUp")next--;else if(e.key==="Home")next=0;else if(e.key==="End")next=screenshots.length-1;else return;e.preventDefault();select(next,true);}}>
       {screenshots.map((s,i)=><button key={s.file} id={`gallery-tab-${i}`} role="tab" type="button" aria-controls="gallery-image-panel" aria-selected={active===i} tabIndex={active===i?0:-1} onClick={()=>select(i)}><img src={source(s.file)} width="160" height="100" loading="lazy" alt=""/><span><b>{String(i+1).padStart(2,"0")}</b>{s.title}</span></button>)}
     </div>
+    <dialog ref={viewer} className="image-viewer" aria-labelledby="viewer-title" onClose={()=>{setExpanded(false);setZoom(false);opener.current?.focus({preventScroll:true});}} onKeyDown={e=>{e.stopPropagation();if(e.key==="ArrowRight"){e.preventDefault();select(active+1);}if(e.key==="ArrowLeft"){e.preventDefault();select(active-1);}}}>
+      <header className="viewer-header"><div><span className="experience-kicker">SMARTPOS / SCREEN GALLERY</span><h3 id="viewer-title">{shot.title}</h3></div><button className="round-control" type="button" aria-label="Close fullscreen viewer" onClick={()=>viewer.current?.close()} autoFocus><Glyph name="close"/></button></header>
+      <div className="viewer-image-area" data-zoom={zoom} onTouchStart={e=>{if(e.touches.length===1)touch.current={x:e.touches[0].clientX,y:e.touches[0].clientY};else touch.current=null;}} onTouchEnd={e=>{const start=touch.current;touch.current=null;if(!start||zoom||e.changedTouches.length!==1)return;const direction=swipeDirection(start,{x:e.changedTouches[0].clientX,y:e.changedTouches[0].clientY});if(direction)select(active+direction);}}><img key={shot.file} src={source(shot.file)} alt={shot.alt}/></div>
+      <footer className="viewer-footer"><div className="viewer-paging"><button className="round-control" type="button" aria-label="Previous fullscreen screenshot" onClick={()=>select(active-1)}><span className="gallery-prev"><Glyph name="right"/></span></button><span aria-live="polite">{String(active+1).padStart(2,"0")} / 09</span><button className="round-control" type="button" aria-label="Next fullscreen screenshot" onClick={()=>select(active+1)}><Glyph name="right"/></button></div><div className="viewer-tools"><button type="button" aria-pressed={zoom} onClick={()=>setZoom(!zoom)}>{zoom?"Fit screen":"Zoom in"}</button><a href={source(shot.file)} target="_blank" rel="noreferrer">Original image <Glyph name="diagonal" size={14}/></a></div><p>Swipe or use ← → to explore · Esc to close</p></footer>
+    </dialog>
     <p className="gallery-footnote">Original application screenshots supplied by Edrian. On-screen values reflect the captured sessions.</p>
   </section>;
 }

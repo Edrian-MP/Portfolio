@@ -59,3 +59,7 @@ The build uses Vite 7 and the official Rollup WASM distribution for compatibilit
 - Native View Transitions animate the project card into its showcase where supported. Unsupported browsers retain the modal; reduced-motion preferences disable the morph.
 - Quick navigation opens from the header or Ctrl/Cmd+K, supports search, arrow keys, Enter, Escape, and focus trapping/return.
 - Responsive navigation, separate About section, compact mobile modal header, aligned contact actions, and smaller device controls support narrow screens.
+
+## Visual polish
+
+Section navigation tracks the current section and slides its highlight; mobile uses a bottom navigation bar with content/safe-area clearance. The fullscreen screenshot dialog supports keyboard navigation, horizontal swipe, zoom/fit, and returning focus without closing the project. Screenshot changes fade gently. Theme changes coordinate surface colors and a sun/moon icon animation. Workspace device selection adds a small nod, monitor activity, and a status light. Offscreen/background activity is paused, and reduced-motion preferences disable the added animation. Mobile labels use larger, less dense type.

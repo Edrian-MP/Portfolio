@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 
 type Theme = "light" | "dark";
 const key = "edrian-portfolio-theme";
@@ -12,6 +12,8 @@ function preferredTheme(): Theme {
 
 export function useTheme() {
   const [theme, setTheme] = useState<Theme>(preferredTheme);
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useLayoutEffect(() => () => { if(timer.current) clearTimeout(timer.current); document.documentElement.classList.remove("theme-switching"); }, []);
   useLayoutEffect(() => {
     document.documentElement.dataset.theme = theme;
     document.documentElement.style.colorScheme = theme;
@@ -27,6 +29,9 @@ export function useTheme() {
   }, []);
   const toggleTheme = () => {
     const next = theme === "light" ? "dark" : "light";
+    document.documentElement.classList.add("theme-switching");
+    if(timer.current) clearTimeout(timer.current);
+    timer.current = setTimeout(() => document.documentElement.classList.remove("theme-switching"), 480);
     try { localStorage.setItem(key, next); } catch { /* Keep the current session usable. */ }
     setTheme(next);
   };

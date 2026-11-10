@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Services from "./Services";
+import SectionNavigation, { useActiveSection } from "./SectionNavigation";
 import SmartGallery, { SmartPOSCover } from "./SmartGallery";
 import { useTheme } from "./useTheme";
 import { flushSync } from "react-dom";
@@ -170,6 +171,7 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
     closeRef.current?.focus();
 
     const onKeyDown = (event: KeyboardEvent) => {
+      if (document.querySelector(".image-viewer[open]")) return;
       if (event.key === "Escape") {
         event.preventDefault();
         onClose();
@@ -680,14 +682,17 @@ const toolboxGroups = [
 ];
 
 function transitionProject(update: () => void) {
-  const doc = document as Document & { startViewTransition?: (callback: () => void) => { finished: Promise<void> } };
+  const doc = document as Document & { startViewTransition?: (callback: () => void) => { finished: Promise<void>; ready: Promise<void> } };
   if (doc.startViewTransition && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    doc.startViewTransition(() => flushSync(update)).finished.catch(() => {});
+    const transition = doc.startViewTransition(() => flushSync(update));
+    transition.ready.catch(() => {});
+    transition.finished.catch(() => {});
   } else update();
 }
 
 export default function App() {
   const { theme, toggleTheme } = useTheme();
+  const activeSection = useActiveSection();
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
   const heroRef = useRef<HTMLElement | null>(null);
@@ -755,6 +760,7 @@ export default function App() {
   return (
     <>
       <ScrollDetails />
+      <SectionNavigation active={activeSection} mobile />
       <div id="home" className={`portfolio-shell ${selectedProject ? "has-project" : ""} min-h-dvh bg-[#0b0e14] px-5 py-8 text-[#f1f5fc] sm:px-10 sm:py-12 lg:px-20 lg:py-20`}>
         <main className="mx-auto flex w-full max-w-[1280px] flex-col gap-8">
           <nav
@@ -765,18 +771,7 @@ export default function App() {
               EDRIAN MONFORTE PATULOT
             </p>
             <CommandPalette disabled={!!selectedProject} />
-            <a className="nav-link" href="#work">
-              Work
-            </a>
-            <a className="nav-link" href="#about">
-              About
-            </a>
-            <a className="nav-link" href="#services">
-              Services
-            </a>
-            <a className="nav-link" href="#contact">
-              Contact
-            </a>
+            <SectionNavigation active={activeSection} />
           </nav>
 
           <p className="font-mono-design text-[11px] leading-[1.25] text-[#76a7ff]">
