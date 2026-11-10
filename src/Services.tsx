@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Glyph } from "./VisualDetails";
 
 const services = [
   { id: "web", title: "Web Applications", label: "01 / DIGITAL", summary: "Website implementation, database integration, and deployment.", tags: ["Interfaces", "Databases", "Deployment"], subject: "Web Applications" },
@@ -38,7 +39,7 @@ export default function Services() {
           <p className="services-intro">Digital interfaces. Physical systems. The connections between them.</p>
         </div>
         <button className="motion-control" type="button" aria-pressed={paused} onClick={() => setPaused(!paused)}>
-          <span aria-hidden="true">{paused ? "▷" : "Ⅱ"}</span> {paused ? "Resume motion" : "Pause motion"}
+          <Glyph name={paused ? "play" : "pause"} size={16} /> {paused ? "Resume motion" : "Pause motion"}
         </button>
       </div>
       <div className="service-grid">
@@ -51,11 +52,11 @@ export default function Services() {
               ) : service.id === "hardware" ? (
                 <div className="circuit-scene"><span className="circuit-label circuit-input">SENSOR</span><span className="circuit-track track-left"/><span className="circuit-chip">I/O<small>BRIDGE</small></span><span className="circuit-track track-right"/><span className="circuit-label circuit-output">APP</span><span className="signal-packet packet-one"/><span className="signal-packet packet-two"/></div>
               ) : (
-                <div className="prototype-scene"><div className="orbit orbit-one"><i/></div><div className="orbit orbit-two"><i/></div><div className="prototype-core"><span>+</span></div><span className="prototype-axis axis-horizontal"/><span className="prototype-axis axis-vertical"/><span className="prototype-note">test. adjust. repeat.</span></div>
+                <div className="prototype-scene"><div className="orbit orbit-one"><i/></div><div className="orbit orbit-two"><i/></div><div className="prototype-core"><span><Glyph name="plus" size={24}/></span></div><span className="prototype-axis axis-horizontal"/><span className="prototype-axis axis-vertical"/><span className="prototype-note">test. adjust. repeat.</span></div>
               )}
             </div>
             <div className="service-copy"><p className="service-eyebrow">{service.label}</p><h3>{service.title}</h3><p className="service-summary">{service.summary}</p><ul className="service-tags">{service.tags.map(tag => <li key={tag}>{tag}</li>)}</ul>
-              <a className="service-cta" href={`mailto:edrianmonfortepatulot@gmail.com?subject=${encodeURIComponent(`Project inquiry — ${service.subject}`)}`}>Discuss a project <span aria-hidden="true">↗</span></a>
+              <a className="service-cta" href={`mailto:edrianmonfortepatulot@gmail.com?subject=${encodeURIComponent(`Project inquiry — ${service.subject}`)}`}>Discuss a project <span className="round-control" aria-hidden="true"><Glyph name="diagonal" size={16}/></span></a>
             </div>
           </article>
         ))}

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Services from "./Services";
+import { ContactBeacon, Glyph, ScrollDetails } from "./VisualDetails";
 
 type ProjectLink =
   | { status: "missing" }
@@ -250,10 +251,10 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
             ref={closeRef}
             type="button"
             onClick={onClose}
-            className="icon-button flex size-11 shrink-0 items-center justify-center rounded-xl border border-[#33445f] bg-[#0d1421] text-2xl leading-none text-[#f1f5fc]"
+            className="icon-button round-control flex size-11 shrink-0 items-center justify-center border border-[#33445f] bg-[#0d1421] text-[#f1f5fc]"
             aria-label="Close project details"
           >
-            ×
+            <Glyph name="close" />
           </button>
         </div>
 
@@ -772,7 +773,8 @@ export default function App() {
 
   return (
     <>
-      <div className="min-h-dvh bg-[#0b0e14] px-5 py-8 text-[#f1f5fc] sm:px-10 sm:py-12 lg:px-20 lg:py-20">
+      <ScrollDetails />
+      <div id="home" className="min-h-dvh bg-[#0b0e14] px-5 py-8 text-[#f1f5fc] sm:px-10 sm:py-12 lg:px-20 lg:py-20">
         <main className="mx-auto flex w-full max-w-[1280px] flex-col gap-8">
           <nav
             className="flex flex-wrap items-center gap-x-5 gap-y-3"
@@ -873,6 +875,7 @@ export default function App() {
           </section>
 
           <section id="work" className="reveal-section scroll-mt-6">
+            <p className="section-caption">01 / SELECTED PROJECT</p>
             <h2 className="font-inter-semibold mb-7 text-[34px] leading-[1.25] text-[#f1f5fc]">
               Selected work
             </h2>
@@ -927,6 +930,7 @@ export default function App() {
             id="contact"
             className="reveal-section scroll-mt-6 rounded-[22px] border border-[#293345] bg-[#172640] p-6 sm:p-9"
           >
+            <ContactBeacon />
             <p className="font-mono-design text-[11px] leading-[1.25] text-[#76a7ff]">
               HAVE SOMETHING IN MIND?
             </p>
