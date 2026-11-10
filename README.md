@@ -50,4 +50,3 @@ The build uses Vite 7 and the official Rollup WASM distribution for compatibilit
 - SmartPOS modal opened; Escape closed it and returned focus to the card.
 - System explorer updated its information panel on selection.
 - GitHub Pages publication must still be verified in the selected repository.
-
