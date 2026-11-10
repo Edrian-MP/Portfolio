@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import Services from "./Services";
 
 type ProjectLink =
   | { status: "missing" }
@@ -786,6 +787,9 @@ export default function App() {
             <a className="nav-link" href="#about">
               About
             </a>
+            <a className="nav-link" href="#services">
+              Services
+            </a>
             <a className="nav-link" href="#contact">
               Contact
             </a>
@@ -878,6 +882,8 @@ export default function App() {
               ))}
             </div>
           </section>
+
+          <Services />
 
           <section
             className="reveal-section rounded-[22px] border border-[#293345] bg-[#141a24] p-5 sm:p-[30px]"
