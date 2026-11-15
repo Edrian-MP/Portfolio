@@ -19,7 +19,23 @@ export function Workbench({ day, onToggleTheme }: { day: boolean; onToggleTheme:
   return <div ref={bench} className="workbench" data-running={inView} data-mode={day ? "day" : "night"} data-device={active.id}>
     <div className="bench-toolbar"><span><i/> EDRIAN’S WORKBENCH</span><button type="button" aria-label="Day mode for entire website" title={day ? "Switch entire website to Night" : "Switch entire website to Day"} aria-pressed={day} onClick={onToggleTheme}><span key={day ? "sun" : "moon"} className="theme-symbol" aria-hidden="true">{day ? "☀" : "☾"}</span>{day ? "Day" : "Night"}</button></div>
     <div className="bench-scene">
-      <div className="bench-window" aria-hidden="true"><i/><i/></div><div className="bench-halo" aria-hidden="true"/>
+      <div className="bench-window" aria-hidden="true">
+        <span className="window-daylight" />
+        <span className="window-stars" />
+        <span className="window-orbit">
+          <span className="window-orbit-turn">
+            <span className="window-orbit-position window-sun-position"><span className="window-sun" /></span>
+            <span className="window-orbit-position window-moon-position"><span className="window-moon" /></span>
+          </span>
+        </span>
+      </div>
+      <div className="bench-halo" aria-hidden="true"/>
+      <div className="bench-backdrop" aria-hidden="true">
+        <div className="bench-terminal"><span>&gt;_</span><i/><i/><i/></div>
+        <div className="bench-shelf"><span className="bench-manuals"/><span className="bench-sensor"/></div>
+        <div className="bench-pegboard"><span className="bench-meter"/><span className="bench-probes"/></div>
+      </div>
+      <span className="window-light-beam" aria-hidden="true"/>
       <div className="bench-person" data-motion={inView && !avatarPaused}>
         <div className="avatar-sprite">
           <img className="avatar-base" src={avatarSprite} alt="Pixel Edrian working at his laptop"/>
@@ -29,11 +45,12 @@ export function Workbench({ day, onToggleTheme }: { day: boolean; onToggleTheme:
           </div>
         </div>
       </div>
-      <div className="bench-desk" aria-hidden="true"/>
+      <div className="bench-desk" aria-hidden="true"><span className="window-light-spill"/></div>
+      <span className="bench-cable bench-cable-pi" aria-hidden="true"/>
+      <span className="bench-cable bench-cable-circuit" aria-hidden="true"/>
       <button className="bench-device bench-laptop" type="button" aria-pressed={selected===0} onClick={()=>setSelected(0)}><span className="device-screen" aria-hidden="true">&lt;/&gt;<i/><b className="monitor-activity"/></span><span>Laptop</span></button>
       <button className="bench-device bench-pi" type="button" aria-pressed={selected===1} onClick={()=>setSelected(1)}><span className="device-board" aria-hidden="true"><i/><b/><em/></span><span>Raspberry Pi</span></button>
       <button className="bench-device bench-circuit" type="button" aria-pressed={selected===2} onClick={()=>setSelected(2)}><span className="device-circuit" aria-hidden="true"><i/><b/><em/></span><span>Circuit</span></button>
-      <span className="bench-wire wire-left" aria-hidden="true"/><span className="bench-wire wire-right" aria-hidden="true"/>
     </div>
     <div className="bench-detail" aria-live="polite"><h3>{active.title}</h3><p>{active.text}</p><div className="bench-chips">{active.chips.map(x=><span key={x}>{x}</span>)}</div></div>
     <div className="avatar-controls"><button className="avatar-motion-control" type="button" aria-pressed={avatarPaused} onClick={()=>setAvatarPaused(!avatarPaused)}><Glyph name={avatarPaused ? "play" : "pause"} size={13}/>{avatarPaused ? "Resume character" : "Pause character"}</button></div>
