@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Services from "./Services";
+import TechnicalSkills from "./TechnicalSkills";
 import SectionNavigation, { useActiveSection } from "./SectionNavigation";
 import SmartGallery, { SmartPOSCover } from "./SmartGallery";
 import { useTheme } from "./useTheme";
@@ -29,7 +30,6 @@ type Project = {
   keyCapabilities: string[];
   stack: StackGroup[];
   challenges: string;
-  completionStatus: string;
   repository: ProjectLink;
   demo: ProjectLink;
 };
@@ -40,27 +40,27 @@ const projects: Project[] = [
     title: "SmartPOS",
     fullTitle: "Inventory System and POS with Smart Weighing Scale for Fresh Produce",
     summary:
-      "A smart weighing and point-of-sale system that combines camera-based produce identification, inventory management, and web administration for fresh-produce vendors.",
+      "A point-of-sale and inventory system for produce vendors that uses cameras to identify items and a digital scale to calculate prices by weight.",
     overview:
-      "SmartPOS connects weighing hardware, camera-based produce recognition, and a point-of-sale application to support fresh-produce vendors in public markets. The system combines a Raspberry Pi terminal with local storage and a browser-based administration interface.",
-    intendedUsers: "Fresh-produce vendors, sellers, and business owners.",
+      "The Raspberry Pi terminal handles weighing, produce recognition, and checkout. It stores sales locally, and a separate web dashboard provides access to inventory and sales records.",
+    intendedUsers: "Produce vendors and stall owners in public markets.",
     problem:
-      "Produce vendors often handle product identification, weighing, pricing, and sales records through separate manual steps. SmartPOS brings these activities into an integrated workflow.",
+      "Selling produce by weight involves identifying the item, weighing it, applying the correct price per kilogram, and recording the sale. SmartPOS brings those steps into a single checkout workflow.",
     contribution:
-      "Worked on hardware–software integration, the Linux environment, and web integration and hosting.",
+      "I worked on integrating the hardware with the point-of-sale software, setting up the Linux environment, and connecting the terminal to the web dashboard. I also worked on hosting the web application.",
     keyCapabilities: [
       "Camera-based produce identification",
       "Smart weighing using a load cell and HX711",
       "Point-of-sale transactions and checkout",
       "Product catalog and inventory management",
-      "Owner-controlled produce-recognition training",
+      "Produce recognition training tools for owners",
       "Price inquiry",
       "Sales history and reporting",
       "Customer-facing transaction display",
       "Receipt printing",
-      "Owner and Seller access",
-      "Local transaction storage with cloud synchronization logic",
-      "Browser-based Web Admin",
+      "Separate owner and seller access",
+      "Local transaction storage and cloud synchronization",
+      "Web administration dashboard",
     ],
     stack: [
       {
@@ -96,8 +96,7 @@ const projects: Project[] = [
       },
     ],
     challenges:
-      "Integrating physical hardware with application software, working within a Linux environment, and connecting the local system with a web administration interface and hosting setup.",
-    completionStatus: "Deployment and completion status have not been confirmed.",
+      "The main challenge was integrating the cameras and scale with the checkout software in a Linux environment. The web dashboard added a second integration task because it needed to work with sales records stored on the terminal.",
     repository: { status: "private" },
     demo: { status: "missing" },
   },
@@ -258,7 +257,7 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
         <div className="p-5 sm:p-9">
           <SmartGallery />
           <details className="demo-disclosure">
-            <summary>Try the illustrative workflow demo</summary>
+            <summary>Try the checkout demo</summary>
             <SmartDemo />
           </details>
 
@@ -286,7 +285,7 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
               </p>
             </ShowcaseSection>
 
-            <ShowcaseSection title="MY ROLE & CONTRIBUTIONS">
+            <ShowcaseSection title="MY CONTRIBUTIONS">
               <p className="font-inter-regular text-[14px] leading-[1.7] text-[#a3afc2]">
                 {project.contribution}
               </p>
@@ -334,13 +333,9 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
               </div>
             </ShowcaseSection>
 
-            <ShowcaseSection title="CHALLENGES & LEARNINGS" className="md:col-span-2">
+            <ShowcaseSection title="INTEGRATION CHALLENGES" className="md:col-span-2">
               <p className="font-inter-regular text-[14px] leading-[1.7] text-[#a3afc2]">
                 {project.challenges}
-              </p>
-              <p className="font-inter-regular mt-3 text-[13px] leading-[1.6] text-[#7f8ca2]">
-                These are ongoing engineering challenges and learning areas; no measured outcomes
-                are claimed.
               </p>
             </ShowcaseSection>
           </div>
@@ -356,9 +351,6 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
               >
                 PROJECT LINKS
               </h3>
-              <p className="font-inter-regular mt-2 text-[13px] leading-[1.5] text-[#7f8ca2]">
-                {project.completionStatus}
-              </p>
             </div>
             <div className="mt-4 flex flex-col gap-2.5 sm:mt-0 sm:min-w-[210px]">
               <ProjectLinkAction link={project.repository} label="GitHub" repository />
@@ -508,7 +500,7 @@ function InsideSmartPOS() {
     <section className="inside-smartpos md:col-span-2" aria-labelledby="inside-smartpos-heading">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <p className="font-mono-design text-[10px] text-[#76a7ff]">SYSTEM MAP / 01</p>
+          <p className="font-mono-design text-[10px] text-[#76a7ff]">SYSTEM ARCHITECTURE</p>
           <h3
             id="inside-smartpos-heading"
             className="font-inter-semibold mt-2 text-[20px] leading-[1.3] text-[#f1f5fc]"
@@ -517,13 +509,12 @@ function InsideSmartPOS() {
           </h3>
         </div>
         <span className="font-mono-design rounded-md border border-[#33445f] bg-[#0d1421] px-2.5 py-1.5 text-[9px] leading-[1.4] text-[#8ea0bb]">
-          ILLUSTRATIVE SYSTEM OVERVIEW
+          COMPONENT OVERVIEW
         </span>
       </div>
 
       <p className="font-inter-regular mt-3 max-w-[720px] text-[13px] leading-[1.6] text-[#8ea0bb]">
-        Select a layer to explore the system components. This overview is illustrative and is not a
-        live device monitor.
+        Select a layer to see how the hardware, local application, and web dashboard fit together.
       </p>
 
       <div
@@ -577,7 +568,7 @@ function InsideSmartPOS() {
 
       <div className="sale-section mt-5 grid gap-4">
         <div className="rounded-xl border border-[#293345] bg-[#0d1421] p-4">
-          <p className="font-mono-design text-[10px] text-[#76a7ff]">TYPICAL SALE</p>
+          <p className="font-mono-design text-[10px] text-[#76a7ff]">CHECKOUT WORKFLOW</p>
           <ol className="sale-flow mt-4">
             {saleSteps.map((step, index) => (
               <li key={step}>
@@ -592,13 +583,12 @@ function InsideSmartPOS() {
         </div>
 
         <aside className="rounded-xl border border-[#33445f] bg-[#132039] p-4">
-          <p className="font-mono-design text-[10px] text-[#76a7ff]">CONDITIONAL PROCESS</p>
+          <p className="font-mono-design text-[10px] text-[#76a7ff]">DATA SYNC</p>
           <p className="font-inter-semibold mt-2 text-[13px] leading-[1.45] text-[#d7deeb]">
             Cloud synchronization
           </p>
           <p className="font-inter-regular mt-2 text-[12px] leading-[1.6] text-[#8ea0bb]">
-            Cloud synchronization is a separate conditional process and is not required for every
-            local sale.
+            The terminal saves sales locally. Cloud synchronization runs separately when available.
           </p>
         </aside>
       </div>
@@ -641,45 +631,10 @@ function ProjectLinkAction({
 
   return (
     <button className="disabled-action justify-center text-center" type="button" disabled>
-      {label} · URL placeholder
+      {label} unavailable
     </button>
   );
 }
-
-const toolboxGroups = [
-  {
-    title: "Programming languages",
-    items: ["Python", "TypeScript"],
-  },
-  {
-    title: "AI-assisted workflows",
-    items: ["Claude Code", "ChatGPT / Codex", "Gemini", "AI prompting"],
-  },
-  {
-    title: "Design and productivity",
-    items: ["Figma", "Microsoft Office"],
-  },
-  {
-    title: "Hardware and environments",
-    items: [
-      "Linux",
-      "Raspberry Pi",
-      "Arduino",
-      "Discrete electronic components",
-      "Hardware–software integration",
-    ],
-  },
-  {
-    title: "Areas of interest",
-    items: [
-      "Website implementation",
-      "Database-backed applications",
-      "Embedded systems and automation",
-      "Engineering prototyping",
-      "Capstone prototyping and technical support",
-    ],
-  },
-];
 
 function transitionProject(update: () => void) {
   const doc = document as Document & { startViewTransition?: (callback: () => void) => { finished: Promise<void>; ready: Promise<void> } };
@@ -774,10 +729,6 @@ export default function App() {
             <SectionNavigation active={activeSection} />
           </nav>
 
-          <p className="font-mono-design text-[11px] leading-[1.25] text-[#76a7ff]">
-            PORTFOLIO / SELECTED WORK
-          </p>
-
           <section
             ref={heroRef}
             className={`hero-surface reveal-section grid overflow-hidden rounded-3xl border border-[#293345] bg-[#141a24] lg:grid-cols-[minmax(0,1fr)_460px] ${heroEffectsActive ? "effects-active" : ""}`}
@@ -785,20 +736,13 @@ export default function App() {
           >
             <div className="hero-content relative z-[2] flex min-h-[420px] flex-col items-start justify-center gap-[18px] px-6 py-12 sm:px-10 lg:py-9">
               <p className="font-mono-design text-[11px] leading-[1.25] text-[#76a7ff]">
-                HELLO, I’M EDRIAN MONFORTE PATULOT
+                COMPUTER ENGINEER
               </p>
               <h1 className="font-inter-semibold max-w-[720px] text-[38px] leading-[1.18] text-[#f1f5fc] sm:text-[48px] lg:text-[54px] lg:leading-[1.2]">
-                Connecting hardware, software, and practical ideas.
+                Web development and hardware integration
               </h1>
-              <p className="font-inter-semibold text-[16px] leading-[1.4] text-[#d7deeb] sm:text-[18px]">
-                Computer Engineer
-              </p>
-              <p className="font-mono-design text-[11px] leading-[1.5] text-[#76a7ff]">
-                AI-assisted Development · Hardware–Software Integration
-              </p>
               <p className="font-inter-regular max-w-[720px] text-[16px] leading-[1.65] text-[#a3afc2] sm:text-[18px]">
-                I work on projects that connect physical devices with digital systems—from websites
-                and databases to embedded hardware and integrated applications.
+                I develop websites and prototypes that connect sensors and embedded devices to applications, databases, and dashboards.
               </p>
               <a className="primary-button" href="#work">
                 Explore projects <span className="arrow-shift" aria-hidden="true"><Glyph name="right" size={18}/></span>
@@ -818,19 +762,14 @@ export default function App() {
                 ABOUT
               </p>
               <h2 className="font-inter-semibold mt-3 text-[23px] leading-[1.25] text-[#f1f5fc]">
-                From components to connected systems.
+                Engineering background
               </h2>
               <p className="font-inter-regular mt-3 text-[14px] leading-[1.65] text-[#a3afc2]">
-                My interests span computer engineering, AI-assisted development, website
-                implementation, and hardware–software integration. I enjoy working with Linux,
-                Raspberry Pi, Arduino, and electronic components to turn ideas into practical
-                prototypes. I use AI tools to support development, troubleshoot problems, and
-                explore different approaches.
+                I work with Linux, Raspberry Pi, Arduino, and electronic components to develop and test prototypes. I also build web interfaces and use AI tools to explore implementation options and troubleshoot issues.
               </p>
           </section>
 
           <section id="work" className="reveal-section scroll-mt-6">
-            <p className="section-caption">01 / SELECTED PROJECT</p>
             <h2 className="font-inter-semibold mb-7 text-[34px] leading-[1.25] text-[#f1f5fc]">
               Selected work
             </h2>
@@ -843,43 +782,7 @@ export default function App() {
 
           <Services />
 
-          <section
-            className="reveal-section rounded-[22px] border border-[#293345] bg-[#141a24] p-5 sm:p-[30px]"
-            aria-labelledby="toolbox-heading"
-          >
-            <p className="font-mono-design text-[11px] leading-[1.25] text-[#76a7ff]">TOOLBOX</p>
-            <h2
-              id="toolbox-heading"
-              className="font-inter-semibold mt-3 text-[26px] leading-[1.25] text-[#f1f5fc]"
-            >
-              Tools, platforms, and areas of interest.
-            </h2>
-            <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {toolboxGroups.map((group) => (
-                <div
-                  key={group.title}
-                  className="rounded-xl border border-[#293345] bg-[#0d1421] p-5"
-                >
-                  <h3 className="font-inter-semibold text-[14px] leading-[1.4] text-[#d7deeb]">
-                    {group.title}
-                  </h3>
-                  <ul className="mt-4 space-y-2.5">
-                    {group.items.map((item) => (
-                      <li
-                        key={item}
-                        className="font-inter-regular flex gap-2.5 text-[13px] leading-[1.5] text-[#a3afc2]"
-                      >
-                        <span className="font-mono-design text-[#76a7ff]" aria-hidden="true">
-                          /
-                        </span>
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-          </section>
+          <TechnicalSkills />
 
           <section
             id="contact"
@@ -887,14 +790,13 @@ export default function App() {
           >
             <ContactBeacon />
             <p className="font-mono-design text-[11px] leading-[1.25] text-[#76a7ff]">
-              HAVE SOMETHING IN MIND?
+              CONTACT
             </p>
             <h2 className="font-inter-semibold mt-[18px] text-[32px] leading-[1.25] text-[#f1f5fc] sm:text-[40px]">
-              Have a project in mind? Let’s talk.
+              Get in touch
             </h2>
             <p className="font-inter-regular mt-3 max-w-[720px] text-[15px] leading-[1.6] text-[#a3afc2]">
-              Reach out about website implementation, hardware–software integration, or engineering
-              prototypes.
+              For project inquiries or technical collaboration, email me with a short description of what you’re working on.
             </p>
             <div className="mt-[18px] flex flex-wrap items-center gap-5">
               <a className="contact-action" href="mailto:edrianmonfortepatulot@gmail.com">
@@ -913,7 +815,7 @@ export default function App() {
 
           <footer className="reveal-section flex flex-col gap-3 pb-2 text-[#a3afc2]">
             <p className="font-mono-design text-[11px] leading-[1.25]">
-              EDRIAN MONFORTE PATULOT / PORTFOLIO
+              Edrian Monforte Patulot
             </p>
             <div className="font-inter-regular flex flex-wrap items-center gap-2 text-[14px] leading-[1.25]">
               <a

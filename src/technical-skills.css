@@ -1,0 +1,80 @@
+.technical-skills {
+  --skills-ink: #edf4ff;
+  --skills-muted: #a8bad3;
+  --skills-accent: #91baff;
+  --skills-border: #344968;
+  --skills-selected: #1c314d;
+  --skills-chip: #14243a;
+  padding: clamp(22px, 4vw, 42px);
+  border: 1px solid var(--skills-border);
+  border-radius: 22px;
+  background: linear-gradient(135deg, #101a29 18%, #132139 70%, #182c49);
+  color: var(--skills-ink);
+  font-family: "Inter:Regular", sans-serif;
+}
+.skills-heading h2 { font: 600 clamp(27px, 4vw, 37px)/1.2 "Inter:Semi Bold", sans-serif; }
+.skills-heading p { margin-top: 12px; color: var(--skills-muted); font-size: 15px; line-height: 1.65; }
+.skills-layout { display: grid; grid-template-columns: minmax(235px, 30%) minmax(0, 1fr); gap: 24px; margin-top: 26px; }
+.skills-tabs { display: grid; align-content: start; gap: 6px; }
+.skills-tabs button {
+  display: grid;
+  grid-template-columns: 10px 1fr 17px;
+  align-items: center;
+  gap: 12px;
+  min-height: 51px;
+  padding: 12px;
+  text-align: left;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  color: var(--skills-muted);
+  cursor: pointer;
+  font-size: 13px;
+  transition: background-color .2s, color .2s, border-color .2s;
+}
+.skills-tabs button:hover, .skills-tabs button[aria-selected="true"] {
+  background: var(--skills-selected);
+  border-color: var(--skills-border);
+  color: var(--skills-ink);
+}
+.skill-node { width: 7px; height: 7px; border-radius: 2px; border: 1px solid var(--skills-accent); transform: rotate(45deg); }
+.skills-tabs button[aria-selected="true"] .skill-node { background: var(--skills-accent); box-shadow: 0 0 12px var(--skills-accent); }
+.skills-tabs button svg { color: var(--skills-accent); opacity: .55; transition: transform .2s, opacity .2s; }
+.skills-tabs button[aria-selected="true"] svg, .skills-tabs button:hover svg { opacity: 1; transform: translateX(2px); }
+.skills-tabs button:focus-visible, .skills-panel:focus-visible { outline: 2px solid var(--skills-accent); outline-offset: 3px; }
+.skills-panel {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--skills-border);
+  border-radius: 15px;
+  min-height: 232px;
+  background: radial-gradient(circle at 100% 0%, #537fbc33, transparent 66%),
+    radial-gradient(circle, #829ed339 1px, transparent 1px) 0 0 / 18px 18px,
+    var(--skills-chip);
+}
+.skill-content { position: relative; min-height: 100%; padding: clamp(20px, 3.5vw, 36px); animation: skill-enter .28s ease-out both; }
+.skill-content h3 { font: 600 clamp(20px, 2.5vw, 27px)/1.25 "Inter:Semi Bold", sans-serif; }
+.skill-content p { margin-top: 12px; max-width: 59ch; color: var(--skills-muted); font-size: 14px; line-height: 1.75; }
+.skill-tools { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+.skill-tools li { padding: 5px 10px; background: var(--skills-chip); border: 1px solid var(--skills-border); border-radius: 6px; font-size: 12px; line-height: 1.4; }
+.skill-trace { position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--skills-accent), transparent 80%); transform-origin: left; animation: skill-trace .45s ease-out both; }
+@keyframes skill-enter { from { opacity: .5; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes skill-trace { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+:root[data-theme="light"] .technical-skills {
+  --skills-ink: #182e4b;
+  --skills-muted: #425d7e;
+  --skills-accent: #315f9d;
+  --skills-border: #b8cce5;
+  --skills-selected: #e2edfb;
+  --skills-chip: #f4f8ff;
+  background: linear-gradient(135deg, #fbfdff, #e8f1fd);
+}
+@media (max-width: 680px) {
+  .skills-layout { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .skills-tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .skills-tabs button { grid-template-columns: 7px 1fr; gap: 7px; padding: 8px; font-size: 12px; }
+  .skills-tabs button svg { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .skill-content, .skill-trace { animation: none; }
+  .skills-tabs button, .skills-tabs button svg { transition: none; }
+}

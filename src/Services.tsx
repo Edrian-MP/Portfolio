@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import { Glyph } from "./VisualDetails";
 
 const services = [
-  { id: "web", title: "Web Applications", label: "01 / DIGITAL", summary: "Website implementation, database integration, and deployment.", tags: ["Interfaces", "Databases", "Deployment"], subject: "Web Applications" },
-  { id: "hardware", title: "Hardware–Software Integration", label: "02 / CONNECTED", summary: "Raspberry Pi, Arduino, sensors, and connected interfaces.", tags: ["Raspberry Pi", "Arduino", "Sensors"], subject: "Hardware–Software Integration" },
-  { id: "prototype", title: "Engineering Prototypes", label: "03 / EXPERIMENTAL", summary: "Proof-of-concept builds, troubleshooting, and capstone technical support.", tags: ["Prototyping", "Troubleshooting", "Technical support"], subject: "Engineering Prototypes" },
+  { id: "web", title: "Web Applications", summary: "Build responsive web interfaces, connect them to databases, and prepare them for deployment.", tags: ["Interfaces", "Databases", "Deployment"], subject: "Web Applications" },
+  { id: "hardware", title: "Hardware–Software Integration", summary: "Connect Raspberry Pi or Arduino devices and sensors to applications that display or process their readings.", tags: ["Raspberry Pi", "Arduino", "Sensors"], subject: "Hardware–Software Integration" },
+  { id: "prototype", title: "Engineering Prototypes", summary: "Develop proof-of-concept prototypes and troubleshoot hardware or software issues in capstone projects.", tags: ["Prototyping", "Troubleshooting", "Technical support"], subject: "Engineering Prototypes" },
 ];
 
 export default function Services() {
@@ -34,9 +34,7 @@ export default function Services() {
     <section ref={sectionRef} id="services" className="services-section reveal-section" aria-labelledby="services-heading" data-running={active && !paused} data-paused={paused}>
       <div className="services-heading-row">
         <div>
-          <p className="service-eyebrow service-stages"><span>IDEA</span><i aria-hidden="true"/><span>PROTOTYPE</span><i aria-hidden="true"/><span>IMPLEMENTATION</span></p>
-          <h2 id="services-heading">What I can help with.</h2>
-          <p className="services-intro">Digital interfaces. Physical systems. The connections between them.</p>
+          <h2 id="services-heading">Services</h2>
         </div>
         <button className="motion-control" type="button" aria-pressed={paused} onClick={() => setPaused(!paused)}>
           <Glyph name={paused ? "play" : "pause"} size={16} /> {paused ? "Resume motion" : "Pause motion"}
@@ -52,10 +50,10 @@ export default function Services() {
               ) : service.id === "hardware" ? (
                 <div className="circuit-scene"><span className="circuit-label circuit-input">SENSOR</span><span className="circuit-track track-left"/><span className="circuit-chip">I/O<small>BRIDGE</small></span><span className="circuit-track track-right"/><span className="circuit-label circuit-output">APP</span><span className="signal-packet packet-one"/><span className="signal-packet packet-two"/></div>
               ) : (
-                <div className="prototype-scene"><div className="orbit orbit-one"><i/></div><div className="orbit orbit-two"><i/></div><div className="prototype-core"><span><Glyph name="plus" size={24}/></span></div><span className="prototype-axis axis-horizontal"/><span className="prototype-axis axis-vertical"/><span className="prototype-note">test. adjust. repeat.</span></div>
+                <div className="prototype-scene"><div className="orbit orbit-one"><i/></div><div className="orbit orbit-two"><i/></div><div className="prototype-core"><span><Glyph name="plus" size={24}/></span></div><span className="prototype-axis axis-horizontal"/><span className="prototype-axis axis-vertical"/><span className="prototype-note">prototype testing</span></div>
               )}
             </div>
-            <div className="service-copy"><p className="service-eyebrow">{service.label}</p><h3>{service.title}</h3><p className="service-summary">{service.summary}</p><ul className="service-tags">{service.tags.map(tag => <li key={tag}>{tag}</li>)}</ul>
+            <div className="service-copy"><h3>{service.title}</h3><p className="service-summary">{service.summary}</p><ul className="service-tags">{service.tags.map(tag => <li key={tag}>{tag}</li>)}</ul>
               <a className="service-cta" href={`mailto:edrianmonfortepatulot@gmail.com?subject=${encodeURIComponent(`Project inquiry — ${service.subject}`)}`}>Discuss a project <span className="round-control" aria-hidden="true"><Glyph name="diagonal" size={16}/></span></a>
             </div>
           </article>

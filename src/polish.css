@@ -14,7 +14,6 @@
 .theme-symbol { display:inline-block; animation:theme-symbol-in .4s cubic-bezier(.2,.8,.2,1); }.bench-toolbar button { min-width:65px; }.bench-person { transform-origin:50% 85%; animation:bench-nod .48s ease-out; }
 .monitor-activity { position:absolute; width:3px; height:3px; background:#9acaff; right:10px; bottom:8px; animation:monitor-light 4s steps(1) infinite; }.bench-toolbar>span>i { animation:bench-status 6s ease-in-out infinite; }.workbench[data-running="false"] * { animation-play-state:paused; }
 @keyframes theme-symbol-in { from { opacity:.2; transform:rotate(-70deg) scale(.6); }to { opacity:1; transform:rotate(0) scale(1); } }
-@keyframes bench-nod { 0%,100% { transform:translateY(0) rotate(0); }45% { transform:translateY(2px) rotate(-1deg); } }
 @keyframes monitor-light { 0%,30%,60%,100% { opacity:.25; }20%,50%,80% { opacity:1; } }
 @keyframes bench-status { 0%,70%,100% { box-shadow:0 0 0 #8cbeac00; opacity:.7; }80% { box-shadow:0 0 7px #8cbeac66; opacity:1; } }
 .gallery-image-link { width:100%; text-align:left; cursor:zoom-in; }.gallery-image-link>img { animation:screenshot-in .2s ease-out; }.viewer-image-area>img { animation:screenshot-in .18s ease-out; }
