@@ -6,7 +6,7 @@ import SectionNavigation, { useActiveSection } from "./SectionNavigation";
 import SmartGallery, { SmartPOSCover } from "./SmartGallery";
 import { useTheme } from "./useTheme";
 import { flushSync } from "react-dom";
-import { Workbench, SmartDemo, CommandPalette } from "./Experiences";
+import { Workbench, CommandPalette } from "./Experiences";
 import { ContactBeacon, Glyph, ScrollDetails } from "./VisualDetails";
 
 type ProjectLink =
@@ -257,10 +257,6 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
 
         <div className="p-5 sm:p-9">
           <SmartGallery />
-          <details className="demo-disclosure">
-            <summary>Try the checkout demo</summary>
-            <SmartDemo />
-          </details>
 
           <div className="mt-7 grid gap-4 md:grid-cols-2">
             <ShowcaseSection title="OVERVIEW" className="md:col-span-2">
@@ -670,7 +666,7 @@ function EngineeringStudio() {
       `M ${x} 85 V 22 H ${x+high} V 85 H ${x+96}`;
   }).join(" ");
   return (
-    <section id="lab" className="reveal-section scroll-mt-6">
+    <section id="lab" className="reveal-section scroll-mt-6 studio-mobile-section">
       <p className="font-mono-design text-[11px] text-[#76a7ff]">ENGINEERING STUDIO / 01</p>
       <h2 className="font-inter-semibold mt-3 text-[34px] leading-[1.25] text-[#f1f5fc]">Experiment with the fundamentals.</h2>
       <p className="font-inter-regular mt-3 max-w-[720px] text-[15px] leading-[1.7] text-[#a3afc2]">Explore interactive demonstrations of embedded control, digital electronics, and serial communication. These are educational simulations, not connected physical devices.</p>
@@ -728,7 +724,7 @@ function EngineeringJourney() {
     {label:"CAPSTONE", title:"SmartPOS", detail:"Integrating the physical checkout terminal, local software, and web dashboard."},
     {label:"CURRENT", title:"Fourth-year student", detail:"BS Computer Engineering · STI College Balayan, Philippines."}
   ];
-  return <section id="journey" className="reveal-section scroll-mt-6 rounded-[22px] border border-[#293345] bg-[#141a24] p-6 sm:p-9">
+  return <section id="journey" className="studio-mobile-section reveal-section scroll-mt-6 rounded-[22px] border border-[#293345] bg-[#141a24] p-6 sm:p-9">
     <p className="font-mono-design text-[11px] text-[#76a7ff]">ENGINEERING JOURNEY</p>
     <h2 className="font-inter-semibold mt-3 text-[30px] text-[#f1f5fc]">From fundamentals to connected systems.</h2>
     <div className="mt-7 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
@@ -770,7 +766,7 @@ function StudioNotes() {
     {tag:"EMBEDDED INTEGRATION",title:"Connecting measurements to applications",text:"Physical inputs such as weight and camera observations become application data. Integration requires coordinating devices, data formats, and user workflows."},
     {tag:"DEVELOPMENT WORKFLOW",title:"Testing before release",text:"This portfolio uses a separate preview branch to evaluate updates before production. Version control keeps changes traceable and makes it easier to restore a working version."}
   ];
-  return <section id="notes" className="reveal-section scroll-mt-6">
+  return <section id="notes" className="studio-mobile-section reveal-section scroll-mt-6">
     <p className="font-mono-design text-[11px] text-[#76a7ff]">STUDIO NOTES</p>
     <h2 className="font-inter-semibold mt-3 text-[34px] text-[#f1f5fc]">Engineering in practice.</h2>
     <div className="mt-5 divide-y divide-[#293345] rounded-2xl border border-[#293345] bg-[#141a24] px-5 sm:px-7">
