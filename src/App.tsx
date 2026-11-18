@@ -279,6 +279,13 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
 
             <InsideSmartPOS />
 
+            <ShowcaseSection title="ENGINEERING DECISIONS" className="md:col-span-2">
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div><h4 className="font-inter-semibold text-[15px] text-[#f1f5fc]">Local-first transaction storage</h4><p className="font-inter-regular mt-2 text-[14px] leading-[1.7] text-[#a3afc2]">The terminal records transactions in SQLite; synchronization is separate from checkout when a connection is available.</p></div>
+                <div><h4 className="font-inter-semibold text-[15px] text-[#f1f5fc]">Physical-to-digital integration</h4><p className="font-inter-regular mt-2 text-[14px] leading-[1.7] text-[#a3afc2]">The camera identifies the produce while the scale provides its weight; the checkout software combines the inputs to calculate the item price.</p></div>
+              </div>
+            </ShowcaseSection>
+
             <ShowcaseSection title="THE PROBLEM">
               <p className="font-inter-regular text-[14px] leading-[1.7] text-[#a3afc2]">
                 {project.problem}
@@ -645,6 +652,88 @@ function transitionProject(update: () => void) {
   } else update();
 }
 
+
+function EngineeringStudio() {
+  const [duty, setDuty] = useState(40);
+  const [frequency, setFrequency] = useState(1000);
+  const [gate, setGate] = useState<"AND" | "OR" | "XOR">("AND");
+  const [a, setA] = useState(false);
+  const [b, setB] = useState(false);
+  const output = gate === "AND" ? a && b : gate === "OR" ? a || b : a !== b;
+  const period = 1000 / frequency;
+  const high = 96 * duty / 100;
+  const wave = Array.from({length:3}, (_, i) => {
+    const x = 16 + i * 96;
+    return duty === 0 ? `M ${x} 85 H ${x+96}` : duty === 100 ? `M ${x} 22 H ${x+96}` :
+      `M ${x} 85 V 22 H ${x+high} V 85 H ${x+96}`;
+  }).join(" ");
+  return (
+    <section id="lab" className="reveal-section scroll-mt-6">
+      <p className="font-mono-design text-[11px] text-[#76a7ff]">ENGINEERING STUDIO / 01</p>
+      <h2 className="font-inter-semibold mt-3 text-[34px] leading-[1.25] text-[#f1f5fc]">Experiment with the fundamentals.</h2>
+      <p className="font-inter-regular mt-3 max-w-[720px] text-[15px] leading-[1.7] text-[#a3afc2]">Explore two interactive demonstrations of embedded control and digital electronics. These are educational simulations, not connected physical devices.</p>
+      <div className="mt-6 grid gap-5 lg:grid-cols-2">
+        <article className="rounded-2xl border border-[#293345] bg-[#141a24] p-5 sm:p-7">
+          <p className="font-mono-design text-[11px] text-[#76a7ff]">01 / SIGNAL GENERATOR</p>
+          <h3 className="font-inter-semibold mt-3 text-[24px] text-[#f1f5fc]">Pulse-width modulation</h3>
+          <svg viewBox="0 0 320 108" role="img" aria-label={`Three PWM cycles at ${duty} percent duty cycle`} className="mt-4 w-full rounded-xl border border-[#293345] bg-[#0d1421]" >
+            {[16,64,112,160,208,256,304].map(x => <path key={x} d={`M ${x} 12 V 96`} stroke="#33445f" strokeWidth=".6" strokeDasharray="3 4"/>)}
+            <path d="M16 22 H304 M16 85 H304" stroke="#33445f" strokeWidth="1"/>
+            <path d={wave} fill="none" stroke="#76a7ff" strokeWidth="2.4" strokeLinejoin="round"/>
+          </svg>
+          <label className="font-inter-regular mt-5 block text-[14px] text-[#d7deeb]" htmlFor="lab-duty">Duty cycle: {duty}%</label>
+          <input id="lab-duty" className="mt-2 w-full" style={{accentColor:"#76a7ff"}} type="range" min={0} max={100} value={duty} onChange={e=>setDuty(Number(e.target.value))}/>
+          <label className="font-inter-regular mt-3 block text-[14px] text-[#d7deeb]" htmlFor="lab-frequency">Frequency: {frequency} Hz</label>
+          <input id="lab-frequency" className="mt-2 w-full" style={{accentColor:"#76a7ff"}} type="range" min={100} max={2000} step={100} value={frequency} onChange={e=>setFrequency(Number(e.target.value))}/>
+          <div className="mt-4 grid grid-cols-2 gap-3">
+            <div className="rounded-xl border border-[#293345] bg-[#0d1421] p-3"><p className="font-mono-design text-[10px] text-[#a3afc2]">PERIOD</p><p className="font-inter-semibold mt-1 text-[18px] text-[#f1f5fc]">{period.toFixed(2)} ms</p></div>
+            <div className="rounded-xl border border-[#293345] bg-[#0d1421] p-3"><p className="font-mono-design text-[10px] text-[#a3afc2]">HIGH TIME</p><p className="font-inter-semibold mt-1 text-[18px] text-[#f1f5fc]">{(period*duty/100).toFixed(2)} ms</p></div>
+          </div>
+          <p className="font-inter-regular mt-3 text-[12px] leading-[1.6] text-[#a3afc2]">Waveform is normalized to three cycles. Duty cycle controls the high-time fraction; frequency controls the period.</p>
+        </article>
+        <article className="rounded-2xl border border-[#293345] bg-[#141a24] p-5 sm:p-7">
+          <p className="font-mono-design text-[11px] text-[#76a7ff]">02 / DIGITAL LOGIC</p>
+          <h3 className="font-inter-semibold mt-3 text-[24px] text-[#f1f5fc]">Logic gate playground</h3>
+          <div className="mt-4 flex flex-wrap gap-2" aria-label="Select logic gate">
+            {(["AND","OR","XOR"] as const).map(g=><button key={g} type="button" aria-pressed={gate===g} onClick={()=>setGate(g)} className="rounded-lg border border-[#33445f] px-4 py-2 font-mono-design text-[12px] text-[#f1f5fc]" style={{outline:gate===g?"2px solid #76a7ff":"none",outlineOffset:2}}>{g}</button>)}
+          </div>
+          <svg viewBox="0 0 320 126" className="mt-5 w-full rounded-xl border border-[#293345] bg-[#0d1421]" role="img" aria-label={`Input A ${Number(a)}, input B ${Number(b)}, ${gate} gate output ${Number(output)}`}>
+            <path d="M55 38 H122 M55 88 H122" stroke="#33445f" strokeWidth="2.5"/>
+            <path d="M55 38 H122" stroke={a?"#76a7ff":"#33445f"} strokeWidth="3"/>
+            <path d="M55 88 H122" stroke={b?"#76a7ff":"#33445f"} strokeWidth="3"/>
+            <rect x="122" y="22" width="80" height="82" rx="12" fill="#141a24" stroke="#76a7ff"/>
+            <text x="162" y="68" fill="#76a7ff" fontSize="15" fontWeight="600" textAnchor="middle">{gate}</text>
+            <path d="M202 63 H264" stroke={output?"#76a7ff":"#33445f"} strokeWidth="3"/>
+            <circle cx="37" cy="38" r="17" fill={a?"#76a7ff":"#293345"}/><circle cx="37" cy="88" r="17" fill={b?"#76a7ff":"#293345"}/><circle cx="280" cy="63" r="17" fill={output?"#76a7ff":"#293345"}/>
+            {[{x:37,y:38,v:a},{x:37,y:88,v:b},{x:280,y:63,v:output}].map(n=><text key={n.x+":"+n.y} x={n.x} y={n.y+5} textAnchor="middle" fill={n.v?"#0b0e14":"#d7deeb"} fontSize="14">{Number(n.v)}</text>)}
+          </svg>
+          <div className="mt-5 grid grid-cols-2 gap-3">
+            <button type="button" aria-pressed={a} onClick={()=>setA(!a)} className="rounded-xl border border-[#33445f] bg-[#0d1421] p-3 text-[#f1f5fc] font-inter-semibold">Input A: {Number(a)}</button>
+            <button type="button" aria-pressed={b} onClick={()=>setB(!b)} className="rounded-xl border border-[#33445f] bg-[#0d1421] p-3 text-[#f1f5fc] font-inter-semibold">Input B: {Number(b)}</button>
+          </div>
+          <p className="font-inter-regular mt-4 text-[14px] leading-[1.6] text-[#a3afc2]" aria-live="polite">Output: {Number(output)}. {gate==="AND"?"Both inputs must be high.":gate==="OR"?"At least one input must be high.":"The inputs must differ."}</p>
+        </article>
+      </div>
+    </section>
+  );
+}
+
+function EngineeringJourney() {
+  const stages = [
+    {label:"FOUNDATIONS", title:"Computer engineering", detail:"Programming, electronics, and digital systems."},
+    {label:"PRACTICE", title:"Embedded prototyping", detail:"Working with Raspberry Pi, Arduino, Linux, and sensors."},
+    {label:"CAPSTONE", title:"SmartPOS", detail:"Integrating the physical checkout terminal, local software, and web dashboard."},
+    {label:"CURRENT", title:"Fourth-year student", detail:"BS Computer Engineering · STI College Balayan, Philippines."}
+  ];
+  return <section id="journey" className="reveal-section scroll-mt-6 rounded-[22px] border border-[#293345] bg-[#141a24] p-6 sm:p-9">
+    <p className="font-mono-design text-[11px] text-[#76a7ff]">ENGINEERING JOURNEY</p>
+    <h2 className="font-inter-semibold mt-3 text-[30px] text-[#f1f5fc]">From fundamentals to connected systems.</h2>
+    <div className="mt-7 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      {stages.map((stage,i)=><article key={stage.label} className="border-t border-[#33445f] pt-4"><p className="font-mono-design text-[11px] text-[#76a7ff]">0{i+1} / {stage.label}</p><h3 className="font-inter-semibold mt-3 text-[17px] text-[#f1f5fc]">{stage.title}</h3><p className="font-inter-regular mt-2 text-[14px] leading-[1.6] text-[#a3afc2]">{stage.detail}</p></article>)}
+    </div>
+  </section>;
+}
+
 export default function App() {
   const { theme, toggleTheme } = useTheme();
   const activeSection = useActiveSection();
@@ -704,12 +793,22 @@ export default function App() {
 
   const openProject = useCallback((project: Project, trigger: HTMLButtonElement) => {
     triggerRef.current = trigger;
+    if (location.hash !== "#smartpos") history.pushState(null, "", "#smartpos");
     transitionProject(() => setSelectedProject(project));
   }, []);
 
   const closeProject = useCallback(() => {
+    if (location.hash === "#smartpos") history.replaceState(null, "", "#work");
     transitionProject(() => setSelectedProject(null));
     requestAnimationFrame(() => triggerRef.current?.focus());
+  }, []);
+
+  useEffect(() => {
+    const syncProject = () => setSelectedProject(location.hash === "#smartpos" ? projects[0] : null);
+    syncProject();
+    window.addEventListener("hashchange", syncProject);
+    window.addEventListener("popstate", syncProject);
+    return () => {window.removeEventListener("hashchange", syncProject); window.removeEventListener("popstate", syncProject);};
   }, []);
 
   return (
@@ -736,16 +835,16 @@ export default function App() {
           >
             <div className="hero-content relative z-[2] flex min-h-[420px] flex-col items-start justify-center gap-[18px] px-6 py-12 sm:px-10 lg:py-9">
               <p className="font-mono-design text-[11px] leading-[1.25] text-[#76a7ff]">
-                COMPUTER ENGINEER
+                COMPUTER ENGINEERING STUDENT · PHILIPPINES
               </p>
               <h1 className="font-inter-semibold max-w-[720px] text-[38px] leading-[1.18] text-[#f1f5fc] sm:text-[48px] lg:text-[54px] lg:leading-[1.2]">
-                Web development and hardware integration
+                Bridging hardware and software.
               </h1>
               <p className="font-inter-regular max-w-[720px] text-[16px] leading-[1.65] text-[#a3afc2] sm:text-[18px]">
-                I develop websites and prototypes that connect sensors and embedded devices to applications, databases, and dashboards.
+                I build web applications and embedded prototypes that connect physical devices to useful software, from sensor readings to connected retail systems.
               </p>
               <a className="primary-button" href="#work">
-                Explore projects <span className="arrow-shift" aria-hidden="true"><Glyph name="right" size={18}/></span>
+                Explore my work <span className="arrow-shift" aria-hidden="true"><Glyph name="right" size={18}/></span>
               </a>
             </div>
 
@@ -765,13 +864,14 @@ export default function App() {
                 Engineering background
               </h2>
               <p className="font-inter-regular mt-3 text-[14px] leading-[1.65] text-[#a3afc2]">
-                I work with Linux, Raspberry Pi, Arduino, and electronic components to develop and test prototypes. I also build web interfaces and use AI tools to explore implementation options and troubleshoot issues.
+                I am a fourth-year BS Computer Engineering student at STI College Balayan, focused on embedded systems, web development, and hardware–software integration. I work with Linux, Raspberry Pi, Arduino, and electronic components to build and test practical prototypes.
               </p>
           </section>
 
           <section id="work" className="reveal-section scroll-mt-6">
+            <p className="font-mono-design mb-3 text-[11px] text-[#76a7ff]">PROJECT SPOTLIGHT / CAPSTONE</p>
             <h2 className="font-inter-semibold mb-7 text-[34px] leading-[1.25] text-[#f1f5fc]">
-              Selected work
+              Featured work
             </h2>
             <div className="project-grid">
               {projects.map((project) => (
@@ -779,6 +879,10 @@ export default function App() {
               ))}
             </div>
           </section>
+
+          <EngineeringStudio />
+
+          <EngineeringJourney />
 
           <Services />
 
