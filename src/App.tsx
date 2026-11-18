@@ -884,11 +884,15 @@ export default function App() {
               <p className="font-inter-regular max-w-[720px] text-[16px] leading-[1.65] text-[#a3afc2] sm:text-[18px]">
                 I build web applications and embedded prototypes that connect physical devices to useful software, from sensor readings to connected retail systems.
               </p>
-              <a className="primary-button" href="#work">
-                Explore my work <span className="arrow-shift" aria-hidden="true"><Glyph name="right" size={18}/></span>
-              </a>
-              <a className="text-link" href="#contact">Get in touch <Glyph name="diagonal" size={16}/></a>
-              <a className="text-link" href="#resume">View résumé <Glyph name="diagonal" size={16}/></a>
+              <div className="hero-actions">
+                <a className="primary-button" href="#work">
+                  Explore my work <span className="arrow-shift" aria-hidden="true"><Glyph name="right" size={18}/></span>
+                </a>
+                <div className="hero-secondary-actions">
+                  <a href="#contact"><span>Get in touch</span><Glyph name="diagonal" size={14}/></a>
+                  <a href="#resume"><span>View résumé</span><Glyph name="diagonal" size={14}/></a>
+                </div>
+              </div>
             </div>
 
             <aside
