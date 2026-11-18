@@ -31,7 +31,7 @@ const skills = [
 export default function TechnicalSkills() {
   const [selected, setSelected] = useState(0);
   const tabs = useRef<(HTMLButtonElement | null)[]>([]);
-  const skill = skills[selected];
+  const skill = skills[selected < 0 ? 0 : selected];
 
   function handleKeyDown(event: KeyboardEvent<HTMLButtonElement>, index: number) {
     let next: number;
@@ -64,6 +64,12 @@ export default function TechnicalSkills() {
         <h2 id="toolbox-heading">Technical skills</h2>
         <p>The tools I use to build web applications, integrate hardware, and document projects.</p>
       </header>
+      <div className="skills-mobile-list">
+        {skills.map((item,index)=><div className="studio-disclosure" data-open={selected===index} key={item.id}>
+          <button className="studio-disclosure-toggle skills-mobile-toggle" type="button" id={`mobile-skill-${item.id}`} aria-expanded={selected===index} aria-controls={`mobile-skill-panel-${item.id}`} onClick={()=>setSelected(selected===index?-1:index)}><span>{item.label}</span><span className="studio-chevron" aria-hidden="true">{selected===index?"−":"+"}</span></button>
+          <div className="studio-inline-detail" id={`mobile-skill-panel-${item.id}`} role="region" aria-labelledby={`mobile-skill-${item.id}`} hidden={selected!==index}><p>{item.description}</p><ul className="skill-tools">{item.tools.map(tool=><li key={tool}>{tool}</li>)}</ul></div>
+        </div>)}
+      </div>
       <div className="skills-layout">
         <div className="skills-tabs" role="tablist" aria-label="Skill areas" aria-orientation="vertical">
           {skills.map((item, index) => (
@@ -73,9 +79,9 @@ export default function TechnicalSkills() {
               id={`skill-tab-${item.id}`}
               type="button"
               role="tab"
-              aria-selected={index === selected}
+              aria-selected={index === (selected < 0 ? 0 : selected)}
               aria-controls="skills-panel"
-              tabIndex={index === selected ? 0 : -1}
+              tabIndex={index === (selected < 0 ? 0 : selected) ? 0 : -1}
               onClick={() => setSelected(index)}
               onKeyDown={(event) => handleKeyDown(event, index)}
             >
