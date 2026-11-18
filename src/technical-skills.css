@@ -78,3 +78,45 @@
   .skill-content, .skill-trace { animation: none; }
   .skills-tabs button, .skills-tabs button svg { transition: none; }
 }
+
+/* Keep selected information adjacent to its trigger. */
+.studio-disclosure { min-width:0; border:1px solid #33445f; border-radius:11px; overflow:hidden; }
+.studio-disclosure[data-open="true"] { border-color:#76a7ff; }
+.studio-disclosure .studio-disclosure-toggle { width:100%; display:flex; align-items:center; justify-content:space-between; gap:10px; min-height:46px; padding:11px 12px; border:0; border-radius:0; text-align:left; background:transparent; color:inherit; font-size:13px; cursor:pointer; }
+.studio-disclosure-toggle span:first-child { min-width:0; overflow-wrap:anywhere; }
+.studio-disclosure-toggle:focus-visible,.studio-mode:focus-visible { outline:2px solid #76a7ff; outline-offset:-3px; }
+.studio-chevron { color:#76a7ff; font-size:19px; line-height:1; flex:none; }
+.studio-inline-detail { padding:2px 12px 13px; border-top:1px solid #33445f; overflow-wrap:anywhere; }
+.studio-inline-detail[hidden] { display:none !important; }
+.studio-inline-detail p { margin-top:10px; line-height:1.65; }
+.studio-inline-detail .text-link { display:inline-flex; font-size:12px; }
+.studio-related { font-size:12px; line-height:1.7; padding-left:16px; list-style:disc; }
+.studio-mode { min-height:44px; }
+.studio-mode[aria-pressed="true"] { border-color:#76a7ff; box-shadow:inset 0 -2px #76a7ff; }
+.studio-mobile-section,.studio-skill-cluster,.studio-architecture-group,.studio-mobile-section article { min-width:0; }
+.skills-mobile-list { display:none; }
+:root[data-theme="light"] .studio-disclosure { border-color:#b8cce5; }
+:root[data-theme="light"] .studio-disclosure[data-open="true"] { border-color:#315f9d; }
+:root[data-theme="light"] .studio-inline-detail { border-color:#b8cce5; }
+:root[data-theme="light"] .studio-chevron { color:#315f9d; }
+:root[data-theme="light"] .studio-mode[aria-pressed="true"] { border-color:#315f9d; box-shadow:inset 0 -2px #315f9d; }
+@media(max-width:680px) {
+  .technical-skills .skills-layout { display:none; }
+  .skills-mobile-list { display:grid; gap:10px; margin-top:20px; }
+  .skills-mobile-toggle { color:var(--skills-ink); }
+  .skills-mobile-list .studio-inline-detail { font-size:14px; color:var(--skills-muted); }
+  .skills-mobile-list .skill-tools { margin-top:14px; }
+  .studio-mobile-section h2 { font-size:clamp(25px,7vw,32px); line-height:1.23; overflow-wrap:break-word; }
+  .studio-mobile-section h3 { font-size:clamp(19px,5.5vw,24px); }
+  .studio-mobile-section article { padding:16px; }
+  .studio-mobile-section input,.studio-mobile-section select { min-height:44px; max-width:100%; }
+  .studio-mobile-section input[type="range"] { min-height:32px; }
+  .studio-mobile-section svg { max-width:100%; height:auto; }
+  .studio-mobile-section [aria-pressed] { min-height:44px; }
+  .studio-mobile-section .studio-architecture-group { padding:11px; }
+  .studio-skill-cluster { align-self:start; }
+}
+@media(max-width:359px) {
+  .mobile-section-nav .nav-link { padding-inline:3px; font-size:11px; min-width:0; }
+  .studio-mobile-section article { padding:13px; }
+}
