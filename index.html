@@ -3,15 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script>
-      (() => {
-        let theme;
-        try { theme = localStorage.getItem('edrian-portfolio-theme'); } catch {}
-        if (theme !== 'light' && theme !== 'dark') theme = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-        document.documentElement.dataset.theme = theme;
-        document.documentElement.style.colorScheme = theme;
-      })();
-    </script>
+    <script src="./studio-init.js"></script>
     <meta name="theme-color" content="#0B0E14" />
     <meta name="description" content="Portfolio of Edrian Monforte Patulot, a Computer Engineering student building web applications and embedded systems." />
     <meta property="og:title" content="Edrian Monforte Patulot | Engineering Studio" />
