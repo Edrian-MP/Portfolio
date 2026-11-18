@@ -734,6 +734,48 @@ function EngineeringJourney() {
   </section>;
 }
 
+
+function InquiryComposer() {
+  const [name,setName]=useState("");
+  const [email,setEmail]=useState("");
+  const [topic,setTopic]=useState("Project collaboration");
+  const [message,setMessage]=useState("");
+  const [notice,setNotice]=useState("");
+  const body=()=>`Hello Edrian,\n\n${message.trim()}\n\nFrom: ${name.trim()}\nEmail: ${email.trim()}`;
+  const fieldClass="mt-2 w-full rounded-xl border border-[#33445f] bg-[#0d1421] p-3 font-inter-regular text-[14px] text-[#f1f5fc]";
+  return <form className="mt-7 rounded-2xl border border-[#33445f] bg-[#141a24] p-5 sm:p-7" onSubmit={e=>{e.preventDefault(); const uri=`mailto:edrianmonfortepatulot@gmail.com?subject=${encodeURIComponent(topic)}&body=${encodeURIComponent(body())}`;location.href=uri;setNotice("Your email app should open with the draft. Review it and send it there.");}}>
+    <p className="font-mono-design text-[11px] text-[#76a7ff]">PROJECT INQUIRY</p>
+    <h3 className="font-inter-semibold mt-2 text-[23px] text-[#f1f5fc]">Tell me what you're building.</h3>
+    <p className="font-inter-regular mt-2 text-[14px] leading-[1.6] text-[#a3afc2]">Prepare a message without creating an account. This form opens your email app; it does not transmit or store your information.</p>
+    <div className="mt-5 grid gap-4 sm:grid-cols-2">
+      <label className="font-inter-regular text-[14px] text-[#d7deeb]">Name<input className={fieldClass} autoComplete="name" value={name} onChange={e=>setName(e.target.value)} required maxLength={100}/></label>
+      <label className="font-inter-regular text-[14px] text-[#d7deeb]">Email<input className={fieldClass} autoComplete="email" type="email" value={email} onChange={e=>setEmail(e.target.value)} required maxLength={160}/></label>
+    </div>
+    <label className="font-inter-regular mt-4 block text-[14px] text-[#d7deeb]">Inquiry type<select className={fieldClass} value={topic} onChange={e=>setTopic(e.target.value)}>{["Project collaboration","Web development","Embedded systems","Internship or career opportunity","Other inquiry"].map(t=><option key={t}>{t}</option>)}</select></label>
+    <label className="font-inter-regular mt-4 block text-[14px] text-[#d7deeb]">Message<textarea className={fieldClass} rows={5} required maxLength={1500} value={message} onChange={e=>setMessage(e.target.value)} placeholder="Describe your project, goals, or the opportunity."/></label>
+    <div className="mt-5 flex flex-wrap items-center gap-4">
+      <button className="primary-button" type="submit">Open email draft <Glyph name="diagonal" size={17}/></button>
+      <button type="button" className="text-link" onClick={async()=>{try{await navigator.clipboard.writeText(topic+"\n\n"+body());setNotice("Draft copied. Paste it into your preferred email app.");}catch{setNotice("Clipboard unavailable. Use Open email draft instead.");}}}>Copy draft</button>
+    </div>
+    <p role="status" className="font-inter-regular mt-3 text-[13px] text-[#a3afc2]">{notice}</p>
+  </form>;
+}
+
+function StudioNotes() {
+  const notes=[
+    {tag:"SYSTEM DESIGN",title:"Why local-first matters",text:"A checkout terminal should retain transaction records even when internet connectivity is unavailable. SmartPOS uses local SQLite storage and a separate synchronization workflow."},
+    {tag:"EMBEDDED INTEGRATION",title:"Connecting measurements to applications",text:"Physical inputs such as weight and camera observations become application data. Integration requires coordinating devices, data formats, and user workflows."},
+    {tag:"DEVELOPMENT WORKFLOW",title:"Testing before release",text:"This portfolio uses a separate preview branch to evaluate updates before production. Version control keeps changes traceable and makes it easier to restore a working version."}
+  ];
+  return <section id="notes" className="reveal-section scroll-mt-6">
+    <p className="font-mono-design text-[11px] text-[#76a7ff]">STUDIO NOTES</p>
+    <h2 className="font-inter-semibold mt-3 text-[34px] text-[#f1f5fc]">Engineering in practice.</h2>
+    <div className="mt-5 divide-y divide-[#293345] rounded-2xl border border-[#293345] bg-[#141a24] px-5 sm:px-7">
+      {notes.map((note,i)=><article key={note.title} className="grid gap-3 py-6 sm:grid-cols-[120px_1fr]"><p className="font-mono-design text-[11px] leading-[1.6] text-[#76a7ff]">0{i+1} / {note.tag}</p><div><h3 className="font-inter-semibold text-[20px] text-[#f1f5fc]">{note.title}</h3><p className="font-inter-regular mt-2 text-[14px] leading-[1.7] text-[#a3afc2]">{note.text}</p></div></article>)}
+    </div>
+  </section>;
+}
+
 export default function App() {
   const { theme, toggleTheme } = useTheme();
   const activeSection = useActiveSection();
@@ -846,6 +888,7 @@ export default function App() {
               <a className="primary-button" href="#work">
                 Explore my work <span className="arrow-shift" aria-hidden="true"><Glyph name="right" size={18}/></span>
               </a>
+              <a className="text-link" href="#contact">Get in touch <Glyph name="diagonal" size={16}/></a>
             </div>
 
             <aside
@@ -884,6 +927,8 @@ export default function App() {
 
           <EngineeringJourney />
 
+          <StudioNotes />
+
           <Services />
 
           <TechnicalSkills />
@@ -915,11 +960,12 @@ export default function App() {
                 View GitHub profile <span className="arrow-shift" aria-hidden="true"><Glyph name="diagonal" size={18}/></span>
               </a>
             </div>
+            <InquiryComposer />
           </section>
 
           <footer className="reveal-section flex flex-col gap-3 pb-2 text-[#a3afc2]">
             <p className="font-mono-design text-[11px] leading-[1.25]">
-              Edrian Monforte Patulot
+              © {new Date().getFullYear()} Edrian Monforte Patulot · Engineering Studio
             </p>
             <div className="font-inter-regular flex flex-wrap items-center gap-2 text-[14px] leading-[1.25]">
               <a
