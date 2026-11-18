@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Services from "./Services";
+import { Architecture, ExtraLab, SkillsMap, Resume } from "./StudioExpansion";
 import TechnicalSkills from "./TechnicalSkills";
 import SectionNavigation, { useActiveSection } from "./SectionNavigation";
 import SmartGallery, { SmartPOSCover } from "./SmartGallery";
@@ -278,6 +279,7 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
             </ShowcaseSection>
 
             <InsideSmartPOS />
+            <Architecture />
 
             <ShowcaseSection title="ENGINEERING DECISIONS" className="md:col-span-2">
               <div className="grid gap-4 sm:grid-cols-2">
@@ -671,7 +673,7 @@ function EngineeringStudio() {
     <section id="lab" className="reveal-section scroll-mt-6">
       <p className="font-mono-design text-[11px] text-[#76a7ff]">ENGINEERING STUDIO / 01</p>
       <h2 className="font-inter-semibold mt-3 text-[34px] leading-[1.25] text-[#f1f5fc]">Experiment with the fundamentals.</h2>
-      <p className="font-inter-regular mt-3 max-w-[720px] text-[15px] leading-[1.7] text-[#a3afc2]">Explore two interactive demonstrations of embedded control and digital electronics. These are educational simulations, not connected physical devices.</p>
+      <p className="font-inter-regular mt-3 max-w-[720px] text-[15px] leading-[1.7] text-[#a3afc2]">Explore interactive demonstrations of embedded control, digital electronics, and serial communication. These are educational simulations, not connected physical devices.</p>
       <div className="mt-6 grid gap-5 lg:grid-cols-2">
         <article className="rounded-2xl border border-[#293345] bg-[#141a24] p-5 sm:p-7">
           <p className="font-mono-design text-[11px] text-[#76a7ff]">01 / SIGNAL GENERATOR</p>
@@ -714,6 +716,7 @@ function EngineeringStudio() {
           <p className="font-inter-regular mt-4 text-[14px] leading-[1.6] text-[#a3afc2]" aria-live="polite">Output: {Number(output)}. {gate==="AND"?"Both inputs must be high.":gate==="OR"?"At least one input must be high.":"The inputs must differ."}</p>
         </article>
       </div>
+    <ExtraLab />
     </section>
   );
 }
@@ -889,6 +892,7 @@ export default function App() {
                 Explore my work <span className="arrow-shift" aria-hidden="true"><Glyph name="right" size={18}/></span>
               </a>
               <a className="text-link" href="#contact">Get in touch <Glyph name="diagonal" size={16}/></a>
+              <a className="text-link" href="#resume">View résumé <Glyph name="diagonal" size={16}/></a>
             </div>
 
             <aside
@@ -932,6 +936,10 @@ export default function App() {
           <Services />
 
           <TechnicalSkills />
+
+          <SkillsMap />
+
+          <Resume />
 
           <section
             id="contact"
