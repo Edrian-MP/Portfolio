@@ -12,7 +12,7 @@ export default defineConfig({
       for (const output of Object.values(bundle)) {
         if (output.type !== "chunk") continue;
         for (const id of Object.keys(output.modules)) {
-          const normalized = id.replaceAll("\\", "/");
+          const normalized = id.split("\\").join("/");
           const match = normalized.match(/\/node_modules\/((?:@[^/]+\/)?[^/]+)/);
           if (match) packages.add(match[1]);
           if (/(?:^|\/)node_modules\/(?:picomatch|fdir|tinyglobby|vite)(?:\/|$)/.test(normalized)) {
