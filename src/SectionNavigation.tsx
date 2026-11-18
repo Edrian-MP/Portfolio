@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
-const sections=[{id:"work",label:"Work"},{id:"about",label:"About"},{id:"services",label:"Services"},{id:"contact",label:"Contact"}];
+const sections=[{id:"work",label:"Work"},{id:"lab",label:"Lab"},{id:"about",label:"About"},{id:"services",label:"Services"},{id:"contact",label:"Contact"}];
 export function useActiveSection() {
   const [active,setActive]=useState<string|null>(null);
   useEffect(()=>{
